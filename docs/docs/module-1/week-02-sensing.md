@@ -175,7 +175,7 @@ All of these sensors feed information into the robot's processing system, which 
 (Loop repeats)
 ```
 
-![Sensor-Brain-Action Flow](/diagrams/module-1/sensor-brain-action-flow.svg)
+![Sensor-Brain-Action Flow](../../static/diagrams/module-1/sensor-brain-action-flow.svg)
 *Figure 1.1: The continuous loop from sensing to action in a humanoid robot*
 
 This loop runs continuously, typically at rates of 50-1000 Hz (50 to 1000 times per second) depending on the sensor and control system.

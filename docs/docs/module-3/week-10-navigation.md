@@ -107,7 +107,7 @@ The robot selects a path that goes around the obstacles while maintaining approp
 Throughout the navigation, the robot continuously monitors its progress and updates its plans as needed. If a path becomes blocked by a new obstacle, the system quickly replans. If the robot detects that it is lost, it may stop and attempt to relocalize before continuing.
 
 :::tip Practical Application
-See [Example 10: Navigation Planning](../../code/module-3/example-10) for hands-on implementation of basic navigation concepts.
+Example 10: Navigation Planning (coming soon) provides hands-on implementation of basic navigation concepts.
 :::
 
 ## Summary

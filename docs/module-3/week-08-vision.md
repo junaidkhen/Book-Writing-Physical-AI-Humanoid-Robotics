@@ -95,7 +95,7 @@ Scene interpretation would combine the extracted features into an understanding 
 Motion analysis would track moving elements and predict their future positions. The robot would estimate the speed and trajectory of approaching vehicles, anticipate pedestrian movements, and plan its own motion to safely navigate the environment.
 
 :::tip Practical Application
-See [Example 8: Vision Processing](../../code/module-3/example-08) for hands-on implementation of basic vision concepts.
+Example 8: Vision Processing (coming soon) provides hands-on implementation of basic vision concepts.
 :::
 
 ## Summary

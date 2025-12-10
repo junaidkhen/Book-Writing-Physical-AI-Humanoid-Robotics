@@ -75,7 +75,7 @@ Throughout this process, the robot maintains uncertainty estimates for both its 
 The resulting map serves multiple purposes: it enables the robot to navigate back to the entrance, provides information about the building layout for human operators, and supports path planning for continued exploration. The map also serves as a foundation for future visits to the same environment.
 
 :::tip Practical Application
-See [Example 9: Mapping Concepts](../../code/module-3/example-09) for hands-on implementation of basic mapping concepts.
+Example 9: Mapping Concepts (coming soon) provides hands-on implementation of basic mapping concepts.
 :::
 
 ## Challenges and Considerations

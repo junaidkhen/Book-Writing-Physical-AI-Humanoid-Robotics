@@ -233,7 +233,7 @@ A digital twin isn't static—it must continuously evolve as the robot gathers n
 (Loop repeats)
 ```
 
-![Real World to Digital World Loop](/diagrams/module-1/real-digital-world-loop.svg)
+![Real World to Digital World Loop](../../static/diagrams/module-1/real-digital-world-loop.svg)
 *Figure 1.3: The continuous bidirectional flow between physical reality and digital representation*
 
 This loop operates continuously:

@@ -47,7 +47,7 @@ A typical perception pipeline consists of several stages:
 [SEMANTIC REPRESENTATION] → Build high-level world model
 ```
 
-![Perception Pipeline Stages](/diagrams/module-1/perception-stages.svg)
+![Perception Pipeline Stages](../../static/diagrams/module-1/perception-stages.svg)
 *Figure 1.2: The multi-stage perception pipeline transforming raw sensor data into semantic understanding*
 
 Let's explore each stage in detail.

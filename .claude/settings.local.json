@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git fetch:*)",
+      "Bash(find:*)",
+      "Bash(.specify/scripts/bash/create-new-feature.sh:*)",
+      "Bash(.specify/scripts/bash/create-phr.sh:*)",
+      "Bash(.specify/scripts/bash/setup-plan.sh:*)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
+      "Bash(mkdir -p docs/module-2)",
+      "Bash(cat package.json)",
+      "Bash(cat docs/package.json)",
+      "Bash(npm run build)",
+      "Bash(ls -la docs/module-*)",
+      "Bash(git remote add origin https://github.com/junaidkhen/Book-Writing-Physical-AI-Humanoid-Robotics)",
+      "mcp__github__get_file_contents",
+      "mcp__github__get_me",
+      "mcp__github__push_files",
+      "Bash(git checkout 001-ai-robotics-textbook)"
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="700" height="400" viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="700" height="400" fill="#f8f9fa"/>
+
+  <!-- Humanoid robot -->
+  <g transform="translate(350, 200)">
+    <!-- Body -->
+    <rect x="-25" y="-100" width="50" height="100" fill="#3498db" stroke="#2c3e50" stroke-width="2"/>
+
+    <!-- Head -->
+    <circle cx="0" cy="-125" r="25" fill="#f1c40f" stroke="#2c3e50" stroke-width="2"/>
+
+    <!-- Arms -->
+    <line x1="-25" y1="-80" x2="-60" y2="-60" stroke="#2c3e50" stroke-width="6" stroke-linecap="round"/>
+    <line x1="25" y1="-80" x2="60" y2="-60" stroke="#2c3e50" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Legs -->
+    <line x1="-15" y1="0" x2="-20" y2="80" stroke="#2c3e50" stroke-width="6" stroke-linecap="round"/>
+    <line x1="15" y1="0" x2="20" y2="80" stroke="#2c3e50" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Feet -->
+    <rect x="-25" y="80" width="12" height="8" fill="#2c3e50"/>
+    <rect x="13" y="80" width="12" height="8" fill="#2c3e50"/>
+  </g>
+
+  <!-- Force vectors -->
+  <g stroke="#e74c3c" stroke-width="3" marker-end="url(#arrowhead)">
+    <!-- Gravity -->
+    <line x1="350" y1="100" x2="350" y2="150" />
+    <text x="360" y="130" font-family="Arial" font-size="14" fill="#2c3e50">F<sub>g</sub> = mg</text>
+
+    <!-- Normal force -->
+    <line x1="350" y1="280" x2="350" y2="230" />
+    <text x="360" y="260" font-family="Arial" font-size="14" fill="#2c3e50">F<sub>N</sub> = mg</text>
+
+    <!-- Friction force -->
+    <line x1="350" y1="280" x2="400" y2="280" />
+    <text x="405" y="275" font-family="Arial" font-size="14" fill="#2c3e50">F<sub>f</sub> = μF<sub>N</sub></text>
+  </g>
+
+  <!-- Moment/Torque vectors -->
+  <g stroke="#9b59b6" stroke-width="3" marker-end="url(#arrowhead-purple)">
+    <!-- Torque at hip -->
+    <path d="M325,0 A25,25 0 1,0 375,0" />
+    <text x="310" y="-10" font-family="Arial" font-size="14" fill="#2c3e50">τ<sub>hip</sub></text>
+
+    <!-- Torque at ankle -->
+    <path d="M335,80 A10,10 0 1,0 365,80" />
+    <text x="310" y="100" font-family="Arial" font-size="14" fill="#2c3e50">τ<sub>ankle</sub></text>
+  </g>
+
+  <!-- Arrowhead definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+      refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c" />
+    </marker>
+    <marker id="arrowhead-purple" markerWidth="10" markerHeight="7"
+      refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#9b59b6" />
+    </marker>
+  </defs>
+
+  <!-- Labels -->
+  <text x="20" y="30" font-family="Arial" font-size="18" font-weight="bold" fill="#2c3e50">Physics Equations for Humanoid Balance</text>
+  <text x="20" y="60" font-family="Arial" font-size="14" fill="#2c3e50">Force and torque relationships in humanoid static equilibrium</text>
+
+  <!-- Equation box -->
+  <rect x="500" y="100" width="180" height="120" rx="10" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2"/>
+  <text x="590" y="125" font-family="Arial" font-size="16" fill="#2c3e50" text-anchor="middle" font-weight="bold">Equilibrium Conditions</text>
+  <text x="510" y="150" font-family="Arial" font-size="14" fill="#2c3e50">∑F = 0 (Force balance)</text>
+  <text x="510" y="170" font-family="Arial" font-size="14" fill="#2c3e50">∑τ = 0 (Torque balance)</text>
+  <text x="510" y="190" font-family="Arial" font-size="14" fill="#2c3e50">CoM ∈ Support Polygon</text>
+  <text x="510" y="210" font-family="Arial" font-size="14" fill="#2c3e50">F<sub>friction</sub> ≥ |F<sub>applied</sub>|</text>
+</svg>

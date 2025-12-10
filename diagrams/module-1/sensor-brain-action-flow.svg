@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#333">Sensor → Brain → Action Flow</text>
+
+  <!-- Physical World (top) -->
+  <rect x="300" y="60" width="200" height="60" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" rx="5"/>
+  <text x="400" y="95" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">PHYSICAL WORLD</text>
+
+  <!-- Arrow down to Sensors -->
+  <line x1="400" y1="120" x2="400" y2="160" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Sensors -->
+  <rect x="300" y="160" width="200" height="60" fill="#E3F2FD" stroke="#2196F3" stroke-width="2" rx="5"/>
+  <text x="400" y="195" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">SENSORS</text>
+  <text x="400" y="210" text-anchor="middle" font-size="12" fill="#666">Convert to digital signals</text>
+
+  <!-- Arrow down to Preprocessing -->
+  <line x1="400" y1="220" x2="400" y2="260" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Preprocessing -->
+  <rect x="300" y="260" width="200" height="60" fill="#FFF3E0" stroke="#FF9800" stroke-width="2" rx="5"/>
+  <text x="400" y="290" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">PREPROCESSING</text>
+  <text x="400" y="305" text-anchor="middle" font-size="12" fill="#666">Filter noise, calibrate</text>
+
+  <!-- Arrow down to Perception -->
+  <line x1="400" y1="320" x2="400" y2="360" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Perception (Brain) -->
+  <rect x="250" y="360" width="300" height="60" fill="#F3E5F5" stroke="#9C27B0" stroke-width="2" rx="5"/>
+  <text x="400" y="385" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">PERCEPTION ("Brain")</text>
+  <text x="400" y="400" text-anchor="middle" font-size="12" fill="#666">Extract meaningful information</text>
+
+  <!-- Arrow down to Decision Making -->
+  <line x1="400" y1="420" x2="400" y2="460" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Decision Making -->
+  <rect x="250" y="460" width="300" height="60" fill="#FCE4EC" stroke="#E91E63" stroke-width="2" rx="5"/>
+  <text x="400" y="485" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">DECISION-MAKING</text>
+  <text x="400" y="500" text-anchor="middle" font-size="12" fill="#666">Choose appropriate actions</text>
+
+  <!-- Arrow down to Control -->
+  <line x1="400" y1="520" x2="400" y2="560" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Control & Actuators -->
+  <rect x="300" y="560" width="200" height="60" fill="#FFEBEE" stroke="#F44336" stroke-width="2" rx="5"/>
+  <text x="400" y="585" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">ACTUATORS</text>
+  <text x="400" y="600" text-anchor="middle" font-size="12" fill="#666">Execute physical actions</text>
+
+  <!-- Arrow back to Physical World -->
+  <path d="M 500 590 Q 650 400 500 90" stroke="#4CAF50" stroke-width="2" fill="none" marker-end="url(#arrowhead-green)" stroke-dasharray="5,5"/>
+  <text x="620" y="350" font-size="14" fill="#4CAF50" font-weight="bold">Actions affect world</text>
+
+  <!-- Arrow labels on left showing flow -->
+  <text x="100" y="195" font-size="12" fill="#666">Light, sound, forces</text>
+  <text x="100" y="295" font-size="12" fill="#666">Raw digital data</text>
+  <text x="100" y="395" font-size="12" fill="#666">Cleaned, synchronized data</text>
+  <text x="100" y="495" font-size="12" fill="#666">Understanding</text>
+  <text x="100" y="595" font-size="12" fill="#666">Motor commands</text>
+
+  <!-- Loop indicator -->
+  <text x="400" y="565" text-anchor="middle" font-size="14" fill="#4CAF50" font-weight="bold">Continuous Loop (50-1000 Hz)</text>
+
+  <!-- Arrow definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4CAF50"/>
+    </marker>
+  </defs>
+</svg>

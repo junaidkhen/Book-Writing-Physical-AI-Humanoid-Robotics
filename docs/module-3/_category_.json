@@ -1,0 +1,8 @@
+{
+  "label": "Module 3: Vision & Navigation",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Computer vision systems, mapping, and navigation for humanoid robots."
+  }
+}

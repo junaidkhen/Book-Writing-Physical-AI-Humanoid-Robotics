@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 700" width="850" height="700">
+  <!-- Title -->
+  <text x="425" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#333">Perception Pipeline Stages</text>
+
+  <!-- Stage 1: Raw Sensor Data -->
+  <rect x="300" y="60" width="250" height="60" fill="#FFEBEE" stroke="#F44336" stroke-width="2" rx="5"/>
+  <text x="425" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">RAW SENSOR DATA</text>
+  <text x="425" y="105" text-anchor="middle" font-size="12" fill="#666">Pixels, distances, accelerations</text>
+
+  <!-- Arrow down -->
+  <line x1="425" y1="120" x2="425" y2="160" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 2: Preprocessing -->
+  <rect x="300" y="160" width="250" height="60" fill="#FFF3E0" stroke="#FF9800" stroke-width="2" rx="5"/>
+  <text x="425" y="185" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">PREPROCESSING</text>
+  <text x="425" y="205" text-anchor="middle" font-size="12" fill="#666">Clean, calibrate, synchronize</text>
+
+  <!-- Arrow down -->
+  <line x1="425" y1="220" x2="425" y2="260" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 3: Feature Extraction -->
+  <rect x="300" y="260" width="250" height="60" fill="#FFF9C4" stroke="#FBC02D" stroke-width="2" rx="5"/>
+  <text x="425" y="285" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">FEATURE EXTRACTION</text>
+  <text x="425" y="305" text-anchor="middle" font-size="12" fill="#666">Edges, corners, textures</text>
+
+  <!-- Arrow down -->
+  <line x1="425" y1="320" x2="425" y2="360" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 4: Object Detection -->
+  <rect x="300" y="360" width="250" height="60" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" rx="5"/>
+  <text x="425" y="385" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">OBJECT DETECTION</text>
+  <text x="425" y="405" text-anchor="middle" font-size="12" fill="#666">Find candidate objects</text>
+
+  <!-- Arrow down -->
+  <line x1="425" y1="420" x2="425" y2="460" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 5: Recognition/Classification -->
+  <rect x="300" y="460" width="250" height="60" fill="#E3F2FD" stroke="#2196F3" stroke-width="2" rx="5"/>
+  <text x="425" y="485" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">RECOGNITION</text>
+  <text x="425" y="505" text-anchor="middle" font-size="12" fill="#666">Identify what objects are</text>
+
+  <!-- Arrow down -->
+  <line x1="425" y1="520" x2="425" y2="560" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 6: Scene Understanding -->
+  <rect x="300" y="560" width="250" height="60" fill="#F3E5F5" stroke="#9C27B0" stroke-width="2" rx="5"/>
+  <text x="425" y="585" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">SCENE UNDERSTANDING</text>
+  <text x="425" y="605" text-anchor="middle" font-size="12" fill="#666">Spatial relationships, context</text>
+
+  <!-- Arrow down -->
+  <line x1="425" y1="620" x2="425" y2="660" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Stage 7: Semantic Representation -->
+  <rect x="275" y="660" width="300" height="60" fill="#E1F5FE" stroke="#0277BD" stroke-width="2" rx="5"/>
+  <text x="425" y="685" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">SEMANTIC REPRESENTATION</text>
+  <text x="425" y="705" text-anchor="middle" font-size="12" fill="#666">High-level actionable knowledge</text>
+
+  <!-- Examples on the right side -->
+  <text x="620" y="90" font-size="13" fill="#666">1920×1080 pixels</text>
+  <text x="620" y="190" font-size="13" fill="#666">Noise-reduced image</text>
+  <text x="620" y="290" font-size="13" fill="#666">Edge map</text>
+  <text x="620" y="390" font-size="13" fill="#666">Bounding boxes</text>
+  <text x="620" y="490" font-size="13" fill="#666">"Cup", "Person", "Table"</text>
+  <text x="620" y="590" font-size="13" fill="#666">"Cup on table"</text>
+  <text x="620" y="690" font-size="13" fill="#666">"Cup reachable at 0.5m"</text>
+
+  <!-- Complexity gradient indicator -->
+  <text x="100" y="90" font-size="13" fill="#666" font-weight="bold">LOW-LEVEL</text>
+  <text x="100" y="115" font-size="12" fill="#666">(data)</text>
+
+  <text x="100" y="400" font-size="13" fill="#666" font-weight="bold">MID-LEVEL</text>
+  <text x="100" y="425" font-size="12" fill="#666">(features)</text>
+
+  <text x="100" y="690" font-size="13" fill="#666" font-weight="bold">HIGH-LEVEL</text>
+  <text x="100" y="715" font-size="12" fill="#666">(understanding)</text>
+
+  <!-- Arrow definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

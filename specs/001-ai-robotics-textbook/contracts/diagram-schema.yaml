@@ -1,0 +1,119 @@
+# Diagram Metadata Schema
+# Location: diagrams/meta.yaml
+
+diagrams:
+  # ============================================================
+  # Module 1 Diagrams
+  # ============================================================
+
+  - id: "example-diagram-id"
+    module: 1
+    filename: "example-diagram.svg"
+    format: "svg"  # svg or png (svg preferred)
+    alt_text: "Descriptive alternative text explaining what the diagram shows, including all important visual elements and relationships (50-200 characters)"
+    caption: "Figure 1.1: Brief caption for figure reference"
+    tags: ["tag1", "tag2", "tag3"]
+    width: 800  # Optional: display width in pixels
+    height: 600  # Optional: display height in pixels
+    notes: "Optional notes about diagram creation, sources, or modifications"
+
+  # Example: Perception Pipeline
+  - id: "ai-perception-pipeline"
+    module: 1
+    filename: "ai-perception-pipeline.svg"
+    format: "svg"
+    alt_text: "Flowchart showing AI perception pipeline with four stages: sensors capture raw data, preprocessing filters noise, feature extraction identifies patterns, and classification outputs object labels with confidence scores"
+    caption: "Figure 1.1: End-to-end AI perception pipeline for robotic systems"
+    tags: ["perception", "architecture", "pipeline", "computer-vision"]
+
+  # Example: Sensor Fusion
+  - id: "kalman-filter-cycle"
+    module: 1
+    filename: "kalman-filter-cycle.svg"
+    format: "svg"
+    alt_text: "Circular diagram showing Kalman filter two-phase cycle: prediction phase uses system model to estimate state, update phase incorporates measurements to correct estimate, arrows indicate continuous loop"
+    caption: "Figure 1.2: Kalman filter prediction-update cycle"
+    tags: ["kalman-filter", "estimation", "sensors", "fusion"]
+
+  # ============================================================
+  # Module 2 Diagrams
+  # ============================================================
+
+  - id: "control-architecture"
+    module: 2
+    filename: "control-architecture.svg"
+    format: "svg"
+    alt_text: "Hierarchical control architecture diagram with three layers: high-level planner generates waypoints, mid-level controller computes velocities, low-level actuator driver sends motor commands"
+    caption: "Figure 2.1: Three-layer robot control architecture"
+    tags: ["control", "architecture", "planning", "motion"]
+
+  # ============================================================
+  # Module 3 Diagrams
+  # ============================================================
+
+  - id: "slam-pipeline"
+    module: 3
+    filename: "slam-pipeline.svg"
+    format: "svg"
+    alt_text: "SLAM pipeline flowchart showing simultaneous localization and mapping: sensor data feeds into feature extraction, data association matches features, optimization updates pose and map estimates in parallel"
+    caption: "Figure 3.1: Simultaneous Localization and Mapping (SLAM) pipeline"
+    tags: ["slam", "localization", "mapping", "navigation"]
+
+  # ============================================================
+  # Module 4 Diagrams
+  # ============================================================
+
+  - id: "learning-pipeline"
+    module: 4
+    filename: "learning-pipeline.svg"
+    format: "svg"
+    alt_text: "Robot learning pipeline showing data collection from environment, offline training with neural networks, policy deployment to robot, and continuous improvement loop back to data collection"
+    caption: "Figure 4.1: End-to-end robot learning pipeline"
+    tags: ["learning", "reinforcement-learning", "neural-networks", "training"]
+
+# ============================================================
+# Schema Documentation
+# ============================================================
+
+# Field Descriptions:
+# - id: Unique identifier in kebab-case (required)
+# - module: Module number 1-4 (required)
+# - filename: Image filename with extension (required)
+# - format: File format, svg or png (svg preferred) (required)
+# - alt_text: Descriptive alternative text for accessibility, 50-200 characters (required)
+# - caption: Figure caption for reference in text, starting with "Figure X.Y:" (required)
+# - tags: Array of descriptive tags for searchability (optional)
+# - width: Display width in pixels (optional)
+# - height: Display height in pixels (optional)
+# - notes: Internal notes about diagram (optional)
+
+# Validation Rules:
+# 1. All required fields must be present
+# 2. alt_text length must be 50-200 characters
+# 3. Filename must match actual file in diagrams/module-{n}/ directory
+# 4. Format must be 'svg' or 'png'
+# 5. Module must be integer 1-4
+# 6. ID must be unique across all diagrams
+# 7. Caption must start with "Figure {module}.{number}:"
+# 8. Each module must have at least 3 diagrams
+# 9. Total diagrams across all modules must be >= 12
+
+# Accessibility Requirements (WCAG 2.1 AA):
+# - Alt text must be descriptive, not just filename
+# - Alt text must explain visual content, not just repeat caption
+# - Complex diagrams should describe relationships and data flow
+# - Avoid phrases like "image of" or "diagram showing" (implied)
+# - If diagram contains text, include key text in alt_text
+
+# Best Practices:
+# - Use SVG format when possible for scalability
+# - Keep diagrams simple and focused on one concept
+# - Use consistent visual style across all diagrams
+# - Include legends/keys for symbols or colors
+# - Test diagrams with screen readers
+# - Provide high-contrast colors (4.5:1 ratio minimum)
+# - Don't rely solely on color to convey information
+
+# Example Usage in Markdown:
+# ![Flowchart showing AI perception pipeline with four stages: sensors capture raw data, preprocessing filters noise, feature extraction identifies patterns, and classification outputs object labels with confidence scores](../../diagrams/module-1/ai-perception-pipeline.svg)
+# *Figure 1.1: End-to-end AI perception pipeline for robotic systems*

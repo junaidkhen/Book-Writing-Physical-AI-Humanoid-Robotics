@@ -1,0 +1,51 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#f8f9fa"/>
+
+  <!-- Robot body (simplified torso) -->
+  <rect x="250" y="100" width="100" height="150" fill="#e9ecef" stroke="#495057" stroke-width="2" rx="10"/>
+
+  <!-- Shoulder joint -->
+  <circle cx="350" cy="130" r="8" fill="#0d6efd" stroke="#0a58ca" stroke-width="2"/>
+  <text x="360" y="135" font-family="Arial" font-size="14" fill="#495057">Shoulder</text>
+
+  <!-- Upper arm -->
+  <line x1="350" y1="130" x2="450" y2="180" stroke="#0d6efd" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Elbow joint -->
+  <circle cx="450" cy="180" r="8" fill="#0d6efd" stroke="#0a58ca" stroke-width="2"/>
+  <text x="460" y="185" font-family="Arial" font-size="14" fill="#495057">Elbow</text>
+
+  <!-- Forearm -->
+  <line x1="450" y1="180" x2="520" y2="220" stroke="#0d6efd" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Hand -->
+  <circle cx="520" cy="220" r="12" fill="#6c757d" stroke="#495057" stroke-width="2"/>
+  <text x="535" y="225" font-family="Arial" font-size="14" fill="#495057">Hand</text>
+
+  <!-- Joint angle indicators -->
+  <path d="M 350 130 A 30 30 0 0 1 450 180" fill="none" stroke="#20c997" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="380" y="160" font-family="Arial" font-size="12" fill="#20c997">θ₁</text>
+
+  <path d="M 450 180 A 25 25 0 0 1 520 220" fill="none" stroke="#20c997" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="480" y="200" font-family="Arial" font-size="12" fill="#20c997">θ₂</text>
+
+  <!-- Coordinate system -->
+  <line x1="200" y1="280" x2="200" y2="80" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="200" y1="280" x2="550" y2="280" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="205" y="90" font-family="Arial" font-size="14" fill="#dc3545">Y</text>
+  <text x="535" y="275" font-family="Arial" font-size="14" fill="#dc3545">X</text>
+
+  <!-- Arrowhead definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+      refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#dc3545" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="300" y="40" font-family="Arial" font-size="18" font-weight="bold" fill="#212529" text-anchor="middle">
+    Simple Limb Kinematic Chain
+  </text>
+</svg>

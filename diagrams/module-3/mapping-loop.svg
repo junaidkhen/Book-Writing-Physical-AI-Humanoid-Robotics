@@ -1,0 +1,67 @@
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .node { fill: #e8f5e9; stroke: #388e3c; stroke-width: 2; rx: 10; ry: 10; }
+    .label { font-family: Arial, sans-serif; font-size: 14px; fill: #000; text-anchor: middle; }
+    .arrow { stroke: #666; stroke-width: 2; marker-end: url(#arrowhead); }
+    .loop-arrow { stroke: #d32f2f; stroke-width: 3; marker-end: url(#loop-arrowhead); fill: none; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+      refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 0" fill="#666" />
+    </marker>
+    <marker id="loop-arrowhead" markerWidth="12" markerHeight="8"
+      refX="10" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" fill="#d32f2f" />
+    </marker>
+  </defs>
+
+  <!-- Perception -->
+  <rect class="node" x="50" y="100" width="150" height="60" />
+  <text class="label" x="125" y="130">Perception</text>
+  <text class="label" x="125" y="145">&amp; Feature</text>
+  <text class="label" x="125" y="160">Extraction</text>
+
+  <!-- Localization -->
+  <rect class="node" x="250" y="50" width="150" height="60" />
+  <text class="label" x="325" y="80">Localization</text>
+  <text class="label" x="325" y="95">(Pose Estimation)</text>
+
+  <!-- Mapping -->
+  <rect class="node" x="450" y="100" width="150" height="60" />
+  <text class="label" x="525" y="130">Mapping</text>
+  <text class="label" x="525" y="145">(Map Update)</text>
+
+  <!-- Planning -->
+  <rect class="node" x="325" y="200" width="150" height="60" />
+  <text class="label" x="400" y="230">Planning</text>
+  <text class="label" x="400" y="245">&amp; Navigation</text>
+
+  <!-- Robot Movement -->
+  <rect class="node" x="325" y="300" width="150" height="60" />
+  <text class="label" x="400" y="330">Robot</text>
+  <text class="label" x="400" y="345">Movement</text>
+
+  <!-- Arrows showing the main flow -->
+  <line class="arrow" x1="200" y1="130" x2="250" y2="80" />
+  <line class="arrow" x1="400" y1="80" x2="450" y2="130" />
+  <line class="arrow" x1="525" y1="160" x2="400" y2="200" />
+  <line class="arrow" x1="400" y1="260" x2="400" y2="300" />
+  <line class="arrow" x1="400" y1="360" x2="125" y2="360" />
+  <line class="arrow" x1="125" y1="360" x2="125" y2="160" />
+
+  <!-- Loop arrow showing SLAM cycle -->
+  <path class="loop-arrow" d="M 125 160 C 125 200, 525 200, 525 160" />
+
+  <!-- Title -->
+  <text class="label" x="400" y="30" font-size="18" font-weight="bold">SLAM Mapping Loop for Humanoid Robots</text>
+
+  <!-- Legend -->
+  <rect x="620" y="300" width="160" height="100" fill="none" stroke="#999" />
+  <text class="label" x="700" y="320" font-weight="bold">Legend:</text>
+  <circle cx="640" cy="340" r="5" fill="#666" />
+  <text class="label" x="655" y="345" font-size="12">Main flow</text>
+  <circle cx="640" cy="365" r="5" fill="#d32f2f" />
+  <text class="label" x="655" y="370" font-size="12">SLAM cycle</text>
+</svg>

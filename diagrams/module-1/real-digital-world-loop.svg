@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#333">Real World ↔ Digital World Loop</text>
+
+  <!-- Left side: Physical World -->
+  <rect x="50" y="80" width="300" height="500" fill="#E8F5E9" stroke="#4CAF50" stroke-width="3" rx="10"/>
+  <text x="200" y="110" text-anchor="middle" font-size="18" font-weight="bold" fill="#2E7D32">PHYSICAL WORLD</text>
+
+  <!-- Physical world elements -->
+  <ellipse cx="120" cy="200" rx="40" ry="40" fill="#81C784" stroke="#388E3C" stroke-width="2"/>
+  <text x="120" y="205" text-anchor="middle" font-size="12" fill="#fff">Robot</text>
+
+  <rect x="220" y="170" width="80" height="60" fill="#A5D6A7" stroke="#388E3C" stroke-width="2"/>
+  <text x="260" y="205" text-anchor="middle" font-size="12" fill="#333">Objects</text>
+
+  <line x1="70" y1="500" x2="330" y2="500" stroke="#388E3C" stroke-width="4"/>
+  <text x="200" y="520" text-anchor="middle" font-size="14" fill="#2E7D32">Environment</text>
+
+  <!-- Right side: Digital Twin -->
+  <rect x="550" y="80" width="300" height="500" fill="#E3F2FD" stroke="#2196F3" stroke-width="3" rx="10"/>
+  <text x="700" y="110" text-anchor="middle" font-size="18" font-weight="bold" fill="#0D47A1">DIGITAL TWIN</text>
+
+  <!-- Digital twin elements -->
+  <circle cx="620" cy="200" r="35" fill="#64B5F6" stroke="#1976D2" stroke-width="2"/>
+  <text x="620" y="205" text-anchor="middle" font-size="11" fill="#fff">Robot</text>
+  <text x="620" y="220" text-anchor="middle" font-size="11" fill="#fff">Model</text>
+
+  <rect x="710" y="170" width="80" height="60" fill="#90CAF9" stroke="#1976D2" stroke-width="2"/>
+  <text x="750" y="200" text-anchor="middle" font-size="11" fill="#333">Object</text>
+  <text x="750" y="215" text-anchor="middle" font-size="11" fill="#333">Map</text>
+
+  <path d="M 570 500 L 830 500 L 830 450 L 570 450 Z" fill="#BBDEFB" stroke="#1976D2" stroke-width="2"/>
+  <text x="700" y="485" text-anchor="middle" font-size="12" fill="#0D47A1">Environment Map</text>
+
+  <!-- Sensing arrow (Physical to Digital) -->
+  <g>
+    <path d="M 350 150 Q 450 100 550 150" stroke="#FF9800" stroke-width="3" fill="none" marker-end="url(#arrow-orange)"/>
+    <text x="450" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">SENSING</text>
+    <text x="450" y="105" text-anchor="middle" font-size="11" fill="#E65100">Cameras, LIDAR</text>
+    <text x="450" y="120" text-anchor="middle" font-size="11" fill="#E65100">Force, IMU</text>
+  </g>
+
+  <!-- Perception arrow -->
+  <g>
+    <path d="M 350 250 Q 450 200 550 250" stroke="#9C27B0" stroke-width="3" fill="none" marker-end="url(#arrow-purple)"/>
+    <text x="450" y="185" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A148C">PERCEPTION</text>
+    <text x="450" y="205" text-anchor="middle" font-size="11" fill="#4A148C">Extract features</text>
+    <text x="450" y="220" text-anchor="middle" font-size="11" fill="#4A148C">Recognize objects</text>
+  </g>
+
+  <!-- Update arrow -->
+  <g>
+    <path d="M 350 350 Q 450 300 550 350" stroke="#2196F3" stroke-width="3" fill="none" marker-end="url(#arrow-blue)"/>
+    <text x="450" y="285" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">UPDATE MODEL</text>
+    <text x="450" y="305" text-anchor="middle" font-size="11" fill="#0D47A1">Integrate new data</text>
+    <text x="450" y="320" text-anchor="middle" font-size="11" fill="#0D47A1">Refine estimates</text>
+  </g>
+
+  <!-- Planning arrow (Digital to Physical) -->
+  <g>
+    <path d="M 550 450 Q 450 400 350 450" stroke="#F44336" stroke-width="3" fill="none" marker-end="url(#arrow-red)"/>
+    <text x="450" y="385" text-anchor="middle" font-size="14" font-weight="bold" fill="#B71C1C">PLANNING</text>
+    <text x="450" y="405" text-anchor="middle" font-size="11" fill="#B71C1C">Use model</text>
+    <text x="450" y="420" text-anchor="middle" font-size="11" fill="#B71C1C">Predict outcomes</text>
+  </g>
+
+  <!-- Action arrow -->
+  <g>
+    <path d="M 550 520 Q 450 470 350 520" stroke="#4CAF50" stroke-width="3" fill="none" marker-end="url(#arrow-green)"/>
+    <text x="450" y="455" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">ACTION</text>
+    <text x="450" y="475" text-anchor="middle" font-size="11" fill="#1B5E20">Execute commands</text>
+    <text x="450" y="490" text-anchor="middle" font-size="11" fill="#1B5E20">Move, manipulate</text>
+  </g>
+
+  <!-- Continuous loop indicator -->
+  <text x="450" y="610" text-anchor="middle" font-size="16" font-weight="bold" fill="#666">Continuous Bidirectional Loop</text>
+  <text x="450" y="630" text-anchor="middle" font-size="13" fill="#666">Physical reality ← → Digital representation</text>
+
+  <!-- Arrow definitions -->
+  <defs>
+    <marker id="arrow-orange" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto">
+      <polygon points="0 0, 12 3, 0 6" fill="#FF9800"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto">
+      <polygon points="0 0, 12 3, 0 6" fill="#9C27B0"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto">
+      <polygon points="0 0, 12 3, 0 6" fill="#2196F3"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto">
+      <polygon points="0 0, 12 3, 0 6" fill="#F44336"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="11" refY="3" orient="auto">
+      <polygon points="0 0, 12 3, 0 6" fill="#4CAF50"/>
+    </marker>
+  </defs>
+</svg>

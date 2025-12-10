@@ -1,0 +1,96 @@
+diagrams:
+  - id: "sensor-brain-action-flow"
+    module: 1
+    filename: "sensor-brain-action-flow.svg"
+    format: "svg"
+    alt_text: "Flowchart showing the continuous loop from sensing to action: sensors capture physical phenomena and convert to digital signals, preprocessing filters and calibrates data, perception extracts meaningful information, decision-making chooses actions, and actuators execute movements that affect the physical world"
+    caption: "Figure 1.1: The continuous sensor-brain-action loop in a humanoid robot, operating at 50-1000 Hz"
+    tags: ["perception", "sensors", "control-loop", "architecture"]
+
+  - id: "perception-stages"
+    module: 1
+    filename: "perception-stages.svg"
+    format: "svg"
+    alt_text: "Seven-stage perception pipeline showing progression from raw sensor data through preprocessing, feature extraction, object detection, recognition, scene understanding, to semantic representation, with examples at each level and annotations indicating increasing abstraction from low-level data to high-level understanding"
+    caption: "Figure 1.2: The multi-stage perception pipeline transforming raw sensor data into semantic understanding"
+    tags: ["perception", "computer-vision", "pipeline", "processing-stages"]
+
+  - id: "real-digital-world-loop"
+    module: 1
+    filename: "real-digital-world-loop.svg"
+    format: "svg"
+    alt_text: "Diagram showing bidirectional flow between physical world and digital twin: sensing and perception arrows flow from physical world to digital model, while planning and action arrows flow from digital model back to physical world, illustrating continuous loop of observation, model update, prediction, and execution"
+    caption: "Figure 1.3: The continuous bidirectional flow between physical reality and digital representation"
+    tags: ["digital-twin", "world-model", "sensing-action-loop", "representation"]
+
+  - id: "physics-sketch"
+    module: 2
+    filename: "physics-sketch.svg"
+    format: "svg"
+    alt_text: "Diagram showing a humanoid robot standing on ground with force vectors: downward gravity arrow, upward normal force arrow, and horizontal friction arrow, illustrating the fundamental physics concepts of contact, force, and friction in humanoid-ground interaction"
+    caption: "Figure 2.1: Physics concepts in humanoid ground interaction - forces acting on a humanoid robot in contact with the ground"
+    tags: ["physics", "forces", "friction", "ground-reaction", "contact"]
+
+  - id: "human-robot-loop"
+    module: 2
+    filename: "human-robot-loop.svg"
+    format: "svg"
+    alt_text: "Diagram showing bidirectional interaction between human and robot: green arrow from human to robot labeled 'Human Actions & Signals' with 'Gesture Recognition' box, red arrow from robot to human labeled 'Robot Responses' with 'Response Generation' box, illustrating the continuous dialogue loop in human-robot interaction"
+    caption: "Figure 2.2: The human-robot interaction loop showing continuous exchange of signals, recognition, and responses"
+    tags: ["hri", "dialogue", "interaction", "recognition", "response"]
+
+  - id: "balance-equations"
+    module: 2
+    filename: "balance-equations.svg"
+    format: "svg"
+    alt_text: "Diagram showing physics equations for humanoid balance: humanoid robot with force vectors (gravity, normal force, friction) and torque vectors at hip and ankle, with equation box showing equilibrium conditions (force balance, torque balance, center of mass in support polygon, friction requirements)"
+    caption: "Figure 2.3: Physics equations governing humanoid balance and stability in static equilibrium"
+    tags: ["physics", "balance", "equilibrium", "torque", "forces"]
+
+  - id: "vision-pipeline"
+    module: 3
+    filename: "vision-pipeline.svg"
+    format: "svg"
+    alt_text: "Flowchart showing the robot vision processing pipeline: sensor data capture stage feeds into preprocessing stage, which connects to feature extraction stage, which connects to scene interpretation stage, with supporting processes of noise reduction feeding into preprocessing and pattern recognition feeding into feature extraction"
+    caption: "Figure 3.1: Robot vision processing pipeline showing the flow from raw sensor data to scene understanding"
+    tags: ["vision", "computer-vision", "pipeline", "processing", "robotics"]
+
+  - id: "mapping-loop"
+    module: 3
+    filename: "mapping-loop.svg"
+    format: "svg"
+    alt_text: "Flowchart showing the SLAM mapping loop for humanoid robots: perception and feature extraction feeds into localization (pose estimation), which connects to mapping (map update), which connects to planning and navigation, which connects to robot movement, which feeds back to perception, with a red loop arrow showing the continuous SLAM cycle"
+    caption: "Figure 3.2: SLAM mapping loop showing the continuous cycle of perception, localization, mapping, planning, and movement"
+    tags: ["slam", "mapping", "localization", "robotics", "navigation"]
+
+  - id: "navigation-flowchart"
+    module: 3
+    filename: "navigation-flowchart.svg"
+    format: "svg"
+    alt_text: "Flowchart showing humanoid robot navigation process: start navigation leads to get goal, sense environment, plan global path, move to next waypoint, then decision if obstacle detected: if yes, check if path to goal still valid, then either local path planning or replan global path, if no obstacle then continue navigation, leading to decision if goal reached with branches to reached goal or stuck states"
+    caption: "Figure 3.3: Flowchart of humanoid robot navigation process showing decision points and path planning logic"
+    tags: ["navigation", "flowchart", "path-planning", "robotics", "decision-making"]
+
+  - id: "limb-sketch"
+    module: 4
+    filename: "limb-sketch.svg"
+    format: "svg"
+    alt_text: "Diagram showing a simplified humanoid limb kinematic chain: robot torso with shoulder joint connected to upper arm, elbow joint connected to forearm, and hand, with joint angle indicators (θ₁ and θ₂), coordinate system (X, Y axes), and labels for each component showing the mathematical relationship in forward kinematics"
+    caption: "Figure 4.1: Simple limb kinematic chain illustrating forward kinematics with joint angles and coordinate system"
+    tags: ["kinematics", "forward-kinematics", "limb-model", "joint-angles", "robotics"]
+
+  - id: "decision-logic"
+    module: 4
+    filename: "decision-logic.svg"
+    format: "svg"
+    alt_text: "Flowchart showing humanoid robot decision logic: start task node leads to goal reached? decision, with yes branch going to task complete, no branch going to obstacle detected? decision, with branches for obstacle avoidance and movement toward goal, then checking safety and balance, with corrective actions and loop back to goal check, including legend for different node types"
+    caption: "Figure 4.2: Decision logic flowchart for humanoid robot task execution showing branching based on goal, obstacle, and safety conditions"
+    tags: ["decision-making", "flowchart", "robotics", "planning", "safety"]
+
+  - id: "humanoid-loop"
+    module: 4
+    filename: "humanoid-loop.svg"
+    format: "svg"
+    alt_text: "Diagram showing complete humanoid robot system loop: robot figure in center with sensors box (cameras, IMU, etc.) connected to perception box (object recognition, scene understanding), which connects to thinking box (planning, decision-making), which connects to kinematics box (forward/inverse kinematics), which connects to action box (movement control), which connects to environment box (physical world), with feedback loop from environment back to sensors, and internal control connections"
+    caption: "Figure 4.3: Complete humanoid robot system loop showing the flow from sensors through perception, thinking, and kinematics to action in the environment"
+    tags: ["system-architecture", "feedback-loop", "robotics", "integration", "sensors-action"]

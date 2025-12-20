@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "start_time": 1765891364.3319805,
+  "end_time": 1765891366.9509008,
+  "duration_seconds": 2.61892032623291,
+  "total_urls_processed": 29,
+  "total_chunks_created": 0,
+  "total_vectors_stored": 0
+}

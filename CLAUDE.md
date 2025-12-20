@@ -208,3 +208,14 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- JavaScript/TypeScript (Node.js 18+ for Docusaurus build), React 18+ + Docusaurus 3.x, React 18, Fetch API / Axios for HTTP, EventSource for SSE (004-fastapi-docusaurus-integration)
+- N/A (ephemeral session state in browser memory, no persistence) (004-fastapi-docusaurus-integration)
+- Python 3.11+ (FastAPI requirement) + FastAPI 0.100+, Uvicorn (ASGI server), fastapi-cors-middleware, python-dotenv (004-fastapi-docusaurus-integration)
+- N/A (backend already has Qdrant vector DB from Specs 1-2, this feature only connects frontend) (004-fastapi-docusaurus-integration)
+- OpenAI API (GPT-4o/GPT-4 Turbo), OpenAI Agents SDK, Qdrant vector database, FastAPI 0.100+, Python 3.11+ (003-rag-agent)
+
+## Recent Changes
+- 004-fastapi-docusaurus-integration: Added JavaScript/TypeScript (Node.js 18+ for Docusaurus build), React 18+ + Docusaurus 3.x, React 18, Fetch API / Axios for HTTP, EventSource for SSE
+- 003-rag-agent: Added OpenAI API integration, OpenAI Agents SDK, Qdrant vector database connectivity, RAG pipeline implementation

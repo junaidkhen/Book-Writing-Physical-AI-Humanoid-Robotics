@@ -1,0 +1,564 @@
+openapi: 3.0.3
+info:
+  title: RAG-Enabled Agent Service
+  description: A stateless RAG-enabled backend agent using the OpenAI Agents SDK and FastAPI that retrieves knowledge from Qdrant and produces grounded, citation-based answers from embedded book content.
+  version: 1.0.0
+  contact:
+    name: Development Team
+    email: dev@physical-ai-humanoid-robotics.com
+
+servers:
+  - url: http://localhost:8000
+    description: Development server
+  - url: https://api.physical-ai-humanoid-robotics.com
+    description: Production server
+
+paths:
+  /ask:
+    post:
+      summary: Process query and return grounded answer with citations
+      description: Full RAG pipeline: retrieve relevant chunks from Qdrant, synthesize answer using OpenAI agent, and return with citations
+      operationId: askQuestion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+            example:
+              query: "What are the key components of a humanoid robot?"
+              top_k: 5
+              temperature: 0.1
+      responses:
+        '200':
+          description: Successful response with grounded answer and citations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+              example:
+                answer: "The key components of a humanoid robot include actuators, sensors, control systems, and a central processing unit..."
+                citations:
+                  - chunk_id: "doc123_chunk_001"
+                    chapter: "Chapter 3"
+                    section: "3.2 Actuators"
+                    page: 45
+                    score: 0.85
+                  - chunk_id: "doc123_chunk_002"
+                    chapter: "Chapter 4"
+                    section: "4.1 Sensor Systems"
+                    page: 67
+                    score: 0.78
+                reasoning:
+                  - "Query interpreted: User asking about humanoid robot components"
+                  - "Retrieval summary: Found 5 relevant chunks discussing robot components"
+                  - "Answer synthesis: Synthesized answer from retrieved chunks"
+                metadata:
+                  token_usage:
+                    input_tokens: 1200
+                    output_tokens: 150
+                    total_tokens: 1350
+                  retrieval_time: 1200
+                  agent_time: 3500
+                  total_time: 4700
+                  chunks_retrieved: 5
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - RAG Operations
+      security:
+        - api_key: []
+
+  /retrieve:
+    post:
+      summary: Raw retrieval results only
+      description: Retrieve top-k relevant chunks from Qdrant without agent synthesis
+      operationId: retrieveChunks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetrievalRequest'
+            example:
+              query: "sensor fusion methods"
+              top_k: 5
+      responses:
+        '200':
+          description: Successful retrieval of relevant chunks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalResponse'
+              example:
+                chunks:
+                  - chunk_id: "doc123_chunk_001"
+                    content: "Sensor fusion is the process of combining data from multiple sensors..."
+                    metadata:
+                      chapter: "Chapter 5"
+                      section: "5.3 Sensor Fusion"
+                      page: 89
+                      source_document: "Physical_AI_Humanoid_Robotics.pdf"
+                    score: 0.89
+                  - chunk_id: "doc123_chunk_002"
+                    content: "Common sensor fusion techniques include Kalman filtering..."
+                    metadata:
+                      chapter: "Chapter 5"
+                      section: "5.4 Fusion Techniques"
+                      page: 91
+                      source_document: "Physical_AI_Humanoid_Robotics.pdf"
+                    score: 0.82
+                metadata:
+                  query: "sensor fusion methods"
+                  chunks_returned: 2
+                  retrieval_time: 800
+                  similarity_threshold: 0.7
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Retrieval Operations
+      security:
+        - api_key: []
+
+  /health:
+    get:
+      summary: Service and Qdrant connectivity status
+      description: Check the health status of the service and its dependencies
+      operationId: getHealthStatus
+      responses:
+        '200':
+          description: Health status of the service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "healthy"
+                qdrant_status: "connected"
+                openai_status: "available"
+                timestamp: "2025-12-17T10:30:00Z"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Health Check
+
+  /metadata:
+    get:
+      summary: Configuration and performance metrics
+      description: Get service configuration and performance statistics
+      operationId: getMetadata
+      responses:
+        '200':
+          description: Service configuration and performance metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsResponse'
+              example:
+                config:
+                  model: "gpt-4o"
+                  temperature: 0.1
+                  top_k_default: 5
+                  max_tokens: 5000
+                  qdrant_collection: "book_embeddings"
+                stats:
+                  total_queries: 1250
+                  avg_response_time: 4200
+                  avg_token_usage:
+                    input_tokens: 1100
+                    output_tokens: 180
+                    total_tokens: 1280
+                  error_count: 3
+                  uptime: "72 hours"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Metrics
+
+components:
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: User's natural language question
+          maxLength: 1000
+          example: "What are the key components of a humanoid robot?"
+        top_k:
+          type: integer
+          description: Number of chunks to retrieve (default: 5)
+          minimum: 1
+          maximum: 20
+          default: 5
+          example: 5
+        temperature:
+          type: number
+          description: Temperature for agent response (default: 0.1, max: 0.2)
+          minimum: 0.0
+          maximum: 0.2
+          default: 0.1
+          example: 0.1
+
+    QueryResponse:
+      type: object
+      required:
+        - answer
+        - citations
+        - reasoning
+        - metadata
+      properties:
+        answer:
+          type: string
+          description: The agent's answer to the query
+          example: "The key components of a humanoid robot include actuators, sensors, control systems, and a central processing unit..."
+        citations:
+          type: array
+          description: List of citations for the answer
+          items:
+            $ref: '#/components/schemas/Citation'
+        reasoning:
+          type: array
+          description: Step-by-step reasoning process
+          items:
+            type: string
+          example:
+            - "Query interpreted: User asking about humanoid robot components"
+            - "Retrieval summary: Found 5 relevant chunks discussing robot components"
+            - "Answer synthesis: Synthesized answer from retrieved chunks"
+        metadata:
+          $ref: '#/components/schemas/ResponseMetadata'
+
+    Citation:
+      type: object
+      required:
+        - chunk_id
+        - chapter
+        - section
+        - score
+      properties:
+        chunk_id:
+          type: string
+          description: Unique identifier for the book chunk
+          example: "doc123_chunk_001"
+        chapter:
+          type: string
+          description: Chapter reference in the book
+          example: "Chapter 3"
+        section:
+          type: string
+          description: Section reference in the book
+          example: "3.2 Actuators"
+        page:
+          type: integer
+          description: Page number (optional)
+          example: 45
+        score:
+          type: number
+          description: Similarity score (0.0-1.0)
+          minimum: 0.0
+          maximum: 1.0
+          example: 0.85
+
+    ResponseMetadata:
+      type: object
+      required:
+        - token_usage
+        - retrieval_time
+        - agent_time
+        - total_time
+        - chunks_retrieved
+      properties:
+        token_usage:
+          $ref: '#/components/schemas/TokenUsage'
+        retrieval_time:
+          type: number
+          description: Time for retrieval phase in milliseconds
+          example: 1200
+        agent_time:
+          type: number
+          description: Time for agent processing in milliseconds
+          example: 3500
+        total_time:
+          type: number
+          description: Total processing time in milliseconds
+          example: 4700
+        chunks_retrieved:
+          type: number
+          description: Number of chunks retrieved
+          example: 5
+
+    TokenUsage:
+      type: object
+      required:
+        - input_tokens
+        - output_tokens
+        - total_tokens
+      properties:
+        input_tokens:
+          type: number
+          description: Number of input tokens used
+          example: 1200
+        output_tokens:
+          type: number
+          description: Number of output tokens generated
+          example: 150
+        total_tokens:
+          type: number
+          description: Total tokens (input + output)
+          example: 1350
+
+    RetrievalRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: User's search query
+          maxLength: 1000
+          example: "sensor fusion methods"
+        top_k:
+          type: integer
+          description: Number of chunks to retrieve (default: 5)
+          minimum: 1
+          maximum: 20
+          default: 5
+          example: 5
+
+    RetrievalResponse:
+      type: object
+      required:
+        - chunks
+        - metadata
+      properties:
+        chunks:
+          type: array
+          description: Ranked list of retrieved chunks
+          items:
+            $ref: '#/components/schemas/RetrievedChunk'
+        metadata:
+          $ref: '#/components/schemas/RetrievalMetadata'
+
+    RetrievedChunk:
+      type: object
+      required:
+        - chunk_id
+        - content
+        - metadata
+        - score
+      properties:
+        chunk_id:
+          type: string
+          description: Unique identifier for the chunk
+          example: "doc123_chunk_001"
+        content:
+          type: string
+          description: The text content of the chunk
+          example: "Sensor fusion is the process of combining data from multiple sensors..."
+        metadata:
+          $ref: '#/components/schemas/ChunkMetadata'
+        score:
+          type: number
+          description: Similarity score (0.0-1.0)
+          minimum: 0.0
+          maximum: 1.0
+          example: 0.89
+
+    ChunkMetadata:
+      type: object
+      required:
+        - chapter
+        - section
+        - source_document
+      properties:
+        chapter:
+          type: string
+          description: Chapter in the book
+          example: "Chapter 5"
+        section:
+          type: string
+          description: Section in the book
+          example: "5.3 Sensor Fusion"
+        page:
+          type: integer
+          description: Page number (optional)
+          example: 89
+        source_document:
+          type: string
+          description: Original document identifier
+          example: "Physical_AI_Humanoid_Robotics.pdf"
+
+    RetrievalMetadata:
+      type: object
+      required:
+        - query
+        - chunks_returned
+        - retrieval_time
+        - similarity_threshold
+      properties:
+        query:
+          type: string
+          description: The original query
+          example: "sensor fusion methods"
+        chunks_returned:
+          type: number
+          description: Number of chunks returned
+          example: 2
+        retrieval_time:
+          type: number
+          description: Time taken for retrieval in milliseconds
+          example: 800
+        similarity_threshold:
+          type: number
+          description: Minimum similarity threshold used
+          minimum: 0.0
+          maximum: 1.0
+          example: 0.7
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - qdrant_status
+        - openai_status
+        - timestamp
+      properties:
+        status:
+          type: string
+          description: Overall service status
+          enum: [healthy, degraded, unhealthy]
+          example: "healthy"
+        qdrant_status:
+          type: string
+          description: Qdrant connectivity status
+          example: "connected"
+        openai_status:
+          type: string
+          description: OpenAI API connectivity status
+          example: "available"
+        timestamp:
+          type: string
+          description: ISO 8601 timestamp
+          format: date-time
+          example: "2025-12-17T10:30:00Z"
+
+    MetricsResponse:
+      type: object
+      required:
+        - config
+        - stats
+      properties:
+        config:
+          $ref: '#/components/schemas/ServiceConfig'
+        stats:
+          $ref: '#/components/schemas/PerformanceStats'
+
+    ServiceConfig:
+      type: object
+      required:
+        - model
+        - temperature
+        - top_k_default
+        - max_tokens
+        - qdrant_collection
+      properties:
+        model:
+          type: string
+          description: OpenAI model being used
+          example: "gpt-4o"
+        temperature:
+          type: number
+          description: Current temperature setting
+          minimum: 0.0
+          maximum: 0.2
+          example: 0.1
+        top_k_default:
+          type: number
+          description: Default top-k value
+          minimum: 1
+          maximum: 20
+          example: 5
+        max_tokens:
+          type: number
+          description: Maximum token limit
+          example: 5000
+        qdrant_collection:
+          type: string
+          description: Qdrant collection name
+          example: "book_embeddings"
+
+    PerformanceStats:
+      type: object
+      required:
+        - total_queries
+        - avg_response_time
+        - avg_token_usage
+        - error_count
+        - uptime
+      properties:
+        total_queries:
+          type: number
+          description: Total number of queries processed
+          example: 1250
+        avg_response_time:
+          type: number
+          description: Average response time in milliseconds
+          example: 4200
+        avg_token_usage:
+          $ref: '#/components/schemas/TokenUsage'
+        error_count:
+          type: number
+          description: Total number of errors
+          example: 3
+        uptime:
+          type: string
+          description: Service uptime string
+          example: "72 hours"
+
+  responses:
+    BadRequest:
+      description: Invalid input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                description: Error message
+                example: "Query must be between 1 and 1000 characters"
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                description: Error message
+                example: "An unexpected error occurred"
+
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header
+      description: API key for authentication
+
+tags:
+  - name: RAG Operations
+    description: Endpoints for RAG-based question answering
+  - name: Retrieval Operations
+    description: Endpoints for raw content retrieval
+  - name: Health Check
+    description: Endpoints for service health monitoring
+  - name: Metrics
+    description: Endpoints for service metrics and configuration

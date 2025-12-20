@@ -1,0 +1,251 @@
+.chatbotContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  height: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  z-index: 1000;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.chatbotContainer.open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.chatbotContainer.closed {
+  transform: translateY(20px);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.chatbotHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #1976d2;
+  color: white;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+.chatbotTitle {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.chatbotControls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.clearButton, .closeButton {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+.clearButton:hover, .closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.closeButton {
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatbotContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fafafa;
+}
+
+.messagesContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.welcomeMessage {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #616161;
+}
+
+.welcomeMessage p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.welcomeMessage p:first-child {
+  font-weight: 500;
+}
+
+.loadingMessage, .streamingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(25, 118, 210, 0.05);
+  border-radius: 0.5rem;
+}
+
+.cancelButton {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: #c62828;
+}
+
+.floatingButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.floatingButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.5);
+}
+
+/* Responsive design */
+
+/* Large desktop (>1024px) - Default styles apply */
+
+/* Tablet landscape and small desktop (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .chatbotContainer {
+    width: 450px;
+    height: 650px;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+/* Tablet portrait (768px and below) */
+@media (max-width: 768px) {
+  .chatbotContainer {
+    width: calc(100vw - 40px);
+    height: 50vh;
+    max-height: 70vh;
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+  }
+
+  .floatingButton {
+    bottom: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    font-size: 1.1rem;
+  }
+
+  .chatbotHeader {
+    padding: 0.75rem;
+  }
+
+  .chatbotTitle {
+    font-size: 1rem;
+  }
+
+  .messagesContainer {
+    padding: 0.75rem;
+  }
+
+  .cancelButton {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
+
+/* Mobile (480px and below) - Bottom sheet style */
+@media (max-width: 480px) {
+  .chatbotContainer {
+    width: 100vw;
+    height: 70vh;
+    max-height: 80vh;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .chatbotContainer.open {
+    transform: translateY(0);
+  }
+
+  .chatbotContainer.closed {
+    transform: translateY(100%);
+  }
+
+  .chatbotHeader {
+    border-radius: 1rem 1rem 0 0;
+    padding: 0.875rem;
+  }
+
+  .floatingButton {
+    width: 55px;
+    height: 55px;
+    font-size: 1.1rem;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .messagesContainer {
+    padding: 0.5rem;
+  }
+
+  .welcomeMessage {
+    padding: 1.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+}

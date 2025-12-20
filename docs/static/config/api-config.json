@@ -1,0 +1,8 @@
+{
+  "development": {
+    "apiBaseUrl": "http://localhost:8000"
+  },
+  "production": {
+    "apiBaseUrl": "https://your-production-api.com"
+  }
+}

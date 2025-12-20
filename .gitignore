@@ -66,6 +66,11 @@ pip-delete-this-directory.txt
 .coverage
 .coverage.*
 .cache
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+dist/
+*.egg
 
 # Local development
 .dockerignore

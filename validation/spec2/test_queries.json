@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "query": "What is physical AI?",
+    "category": "concept",
+    "expected_relevance": "high",
+    "description": "Core concept query about physical AI"
+  },
+  {
+    "id": 2,
+    "query": "Explain humanoid robotics",
+    "category": "concept",
+    "expected_relevance": "high",
+    "description": "Core concept query about humanoid robotics"
+  },
+  {
+    "id": 3,
+    "query": "How are robots trained?",
+    "category": "process",
+    "expected_relevance": "high",
+    "description": "Process-oriented query about robot training"
+  },
+  {
+    "id": 4,
+    "query": "What is embodied intelligence?",
+    "category": "concept",
+    "expected_relevance": "high",
+    "description": "Concept query about embodied intelligence"
+  },
+  {
+    "id": 5,
+    "query": "Describe AI safety in robotics",
+    "category": "concept",
+    "expected_relevance": "high",
+    "description": "Safety-related query"
+  },
+  {
+    "id": 6,
+    "query": "What are the challenges in building humanoid robots?",
+    "category": "analysis",
+    "expected_relevance": "high",
+    "description": "Analytical query about challenges"
+  },
+  {
+    "id": 7,
+    "query": "How do robots perceive their environment?",
+    "category": "technical",
+    "expected_relevance": "high",
+    "description": "Technical query about perception"
+  },
+  {
+    "id": 8,
+    "query": "What sensors are used in humanoid robots?",
+    "category": "technical",
+    "expected_relevance": "high",
+    "description": "Technical query about sensors"
+  },
+  {
+    "id": 9,
+    "query": "Explain reinforcement learning for robotics",
+    "category": "concept",
+    "expected_relevance": "high",
+    "description": "ML concept query"
+  },
+  {
+    "id": 10,
+    "query": "What is sim-to-real transfer?",
+    "category": "concept",
+    "expected_relevance": "high",
+    "description": "Simulation concept query"
+  },
+  {
+    "id": 11,
+    "query": "How do robots maintain balance?",
+    "category": "technical",
+    "expected_relevance": "high",
+    "description": "Technical query about balance control"
+  },
+  {
+    "id": 12,
+    "query": "What are actuators in robotics?",
+    "category": "technical",
+    "expected_relevance": "high",
+    "description": "Component-specific query"
+  },
+  {
+    "id": 13,
+    "query": "robot control systems architecture",
+    "category": "technical",
+    "expected_relevance": "medium",
+    "description": "Short technical query"
+  },
+  {
+    "id": 14,
+    "query": "Can robots learn from human demonstrations?",
+    "category": "process",
+    "expected_relevance": "high",
+    "description": "Learning method query"
+  },
+  {
+    "id": 15,
+    "query": "What is the future of humanoid robotics?",
+    "category": "future",
+    "expected_relevance": "medium",
+    "description": "Future-oriented query"
+  },
+  {
+    "id": 16,
+    "query": "",
+    "category": "edge_case",
+    "expected_relevance": "low",
+    "description": "Empty query edge case"
+  },
+  {
+    "id": 17,
+    "query": "xyz123@#$%^&*()",
+    "category": "edge_case",
+    "expected_relevance": "low",
+    "description": "Special characters edge case"
+  },
+  {
+    "id": 18,
+    "query": "How do quantum computers help in solving the traveling salesman problem using machine learning algorithms trained on ImageNet data to optimize solar panel efficiency?",
+    "category": "edge_case",
+    "expected_relevance": "low",
+    "description": "Out-of-domain long query edge case"
+  },
+  {
+    "id": 19,
+    "query": "robot",
+    "category": "edge_case",
+    "expected_relevance": "medium",
+    "description": "Single word query"
+  },
+  {
+    "id": 20,
+    "query": "What are the ethical implications of deploying humanoid robots in healthcare settings and how should regulatory frameworks balance innovation with patient safety while considering the economic impact on healthcare workers and the potential for algorithmic bias in diagnostic systems?",
+    "category": "edge_case",
+    "expected_relevance": "medium",
+    "description": "Very long complex multi-part query"
+  }
+]

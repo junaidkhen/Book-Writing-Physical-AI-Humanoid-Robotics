@@ -1,0 +1,630 @@
+openapi: 3.0.3
+info:
+  title: RAG Chatbot API
+  description: |
+    API contract for the FastAPI RAG backend supporting the Docusaurus chatbot frontend.
+    This documents the endpoints required for Spec-4 (Docusaurus integration).
+
+    **Base URL (Development)**: http://localhost:8000
+    **Base URL (Production)**: https://api.yourproject.com
+
+    **Note**: This extends the existing Spec-3 backend with CORS support and streaming enhancements.
+  version: 1.0.0
+  contact:
+    name: Physical AI & Humanoid Robotics Project
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: https://api.yourproject.com
+    description: Production server (placeholder)
+
+tags:
+  - name: Query
+    description: Question answering and retrieval endpoints
+  - name: Health
+    description: Service health and monitoring endpoints
+
+paths:
+  /ask:
+    post:
+      tags:
+        - Query
+      summary: Ask a question with RAG-enhanced agent response
+      description: |
+        Submit a natural language query to the RAG agent. Returns an AI-generated answer
+        grounded in the textbook content, with source citations and reasoning.
+
+        **Supports streaming**: Set `stream=true` to receive Server-Sent Events (SSE) for
+        incremental response updates.
+      operationId: askQuestion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AskRequest'
+            examples:
+              basicQuery:
+                summary: Basic query without context
+                value:
+                  query: "What are the key components of a humanoid robot?"
+                  topK: 5
+                  temperature: 0.1
+                  stream: true
+              contextQuery:
+                summary: Query with selected text context
+                value:
+                  query: "Can you explain this in simpler terms?"
+                  context: "Inverse kinematics (IK) is a mathematical process used to calculate the joint parameters..."
+                  topK: 5
+                  temperature: 0.1
+                  stream: true
+      responses:
+        '200':
+          description: Successful response with answer and citations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AskResponse'
+              example:
+                answer: "Humanoid robots consist of three main components: sensory systems, actuator systems, and control systems..."
+                citations:
+                  - chunkId: "ch3-sec2-p5"
+                    title: "Chapter 3: Sensor Systems"
+                    url: "/docs/module-3/sensors"
+                    excerpt: "Humanoid robots utilize multiple sensor modalities..."
+                    score: 0.89
+                  - chunkId: "ch4-sec1-p12"
+                    title: "Chapter 4: Actuator Control"
+                    url: "/docs/module-4/actuators"
+                    excerpt: "Actuator systems provide movement and manipulation..."
+                    score: 0.87
+                reasoning:
+                  - "Query interpreted as: Components of humanoid robots"
+                  - "Retrieved 5 chunks with avg score 0.85"
+                  - "Answer synthesized from top 3 chunks"
+                metadata:
+                  promptTokens: 1200
+                  completionTokens: 350
+                  totalTokens: 1550
+                  retrievalTime: 450
+                  agentTime: 3200
+                  totalTime: 3650
+                  chunksRetrieved: 5
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
+              examples:
+                contentChunk:
+                  summary: Streaming content chunk
+                  value: |
+                    data: {"type":"content","data":"Humanoid robots consist of...","messageId":"msg-123"}
+
+                citationChunk:
+                  summary: Streaming citation chunk
+                  value: |
+                    data: {"type":"citation","data":{"chunkId":"ch3-sec2-p5","title":"Chapter 3","url":"/docs/module-3/sensors","score":0.89},"messageId":"msg-123"}
+
+                doneChunk:
+                  summary: Stream completion
+                  value: |
+                    data: {"type":"done","data":"","messageId":"msg-123"}
+        '400':
+          description: Invalid request (query too long, malformed JSON, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Query exceeds maximum length of 1000 characters"
+                code: "INVALID_QUERY_LENGTH"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Retrieval system unavailable"
+                code: "RETRIEVAL_ERROR"
+        '503':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Backend service is temporarily unavailable"
+                code: "SERVICE_UNAVAILABLE"
+
+  /retrieve:
+    post:
+      tags:
+        - Query
+      summary: Retrieve relevant book chunks without agent synthesis
+      description: |
+        Perform a vector similarity search to retrieve the top-k most relevant book chunks
+        for a given query. Returns raw chunks with similarity scores, without AI-generated synthesis.
+      operationId: retrieveChunks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetrieveRequest'
+            example:
+              query: "sensor fusion methods"
+              topK: 5
+      responses:
+        '200':
+          description: Successful retrieval with ranked chunks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieveResponse'
+              example:
+                chunks:
+                  - chunkId: "ch3-sec2-p5"
+                    text: "Sensor fusion is the process of combining data from multiple sensors..."
+                    metadata:
+                      chapter: "Chapter 3"
+                      section: "Sensor Systems"
+                      page: 45
+                    score: 0.92
+                  - chunkId: "ch3-sec3-p8"
+                    text: "Kalman filters are commonly used for sensor fusion in robotics..."
+                    metadata:
+                      chapter: "Chapter 3"
+                      section: "Data Processing"
+                      page: 52
+                    score: 0.88
+                retrievalTime: 285
+                chunksRetrieved: 5
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Check service health status
+      description: |
+        Returns the current health status of the agent service, including connectivity
+        to dependent services (Qdrant, OpenAI API).
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "healthy"
+                qdrantConnected: true
+                openaiAccessible: true
+                uptime: 86400
+                timestamp: "2025-12-11T10:30:00Z"
+        '503':
+          description: Service is degraded or unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "degraded"
+                qdrantConnected: false
+                openaiAccessible: true
+                uptime: 86400
+                timestamp: "2025-12-11T10:30:00Z"
+                errors:
+                  - "Qdrant connection timeout"
+
+  /metadata:
+    get:
+      tags:
+        - Health
+      summary: Get service metadata and statistics
+      description: |
+        Returns operational statistics, configuration, and performance metrics
+        for the agent service.
+      operationId: getMetadata
+      responses:
+        '200':
+          description: Service metadata and statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetadataResponse'
+              example:
+                configuration:
+                  model: "gpt-4o"
+                  temperature: 0.1
+                  topKDefault: 5
+                  maxPromptTokens: 4000
+                  maxCompletionTokens: 1000
+                statistics:
+                  totalQueries: 1523
+                  averageResponseTime: 3250
+                  totalTokensUsed: 2847560
+                  errorCount: 12
+                  uptime: 86400
+                version: "1.0.0"
+                timestamp: "2025-12-11T10:30:00Z"
+
+components:
+  schemas:
+    AskRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: User's natural language question
+          example: "What are the key components of a humanoid robot?"
+        context:
+          type: string
+          maxLength: 5000
+          description: Optional selected text from the page to provide additional context
+          example: "In this section, we discuss the fundamental architecture..."
+        topK:
+          type: integer
+          minimum: 1
+          maximum: 20
+          default: 5
+          description: Number of chunks to retrieve from vector store
+          example: 5
+        temperature:
+          type: number
+          minimum: 0.0
+          maximum: 0.2
+          default: 0.1
+          description: Agent response temperature (lower = more deterministic)
+          example: 0.1
+        stream:
+          type: boolean
+          default: true
+          description: Enable Server-Sent Events (SSE) streaming
+          example: true
+
+    AskResponse:
+      type: object
+      required:
+        - answer
+        - citations
+        - metadata
+      properties:
+        answer:
+          type: string
+          description: AI-generated answer grounded in textbook content
+          example: "Humanoid robots consist of three main components..."
+        citations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Citation'
+          description: Source references from the textbook
+        reasoning:
+          type: array
+          items:
+            type: string
+          description: Optional reasoning steps showing agent's thought process
+          example:
+            - "Query interpreted as: Components of humanoid robots"
+            - "Retrieved 5 chunks with avg score 0.85"
+        metadata:
+          $ref: '#/components/schemas/ResponseMetadata'
+
+    Citation:
+      type: object
+      required:
+        - chunkId
+        - title
+        - url
+      properties:
+        chunkId:
+          type: string
+          description: Unique identifier for the source chunk
+          example: "ch3-sec2-p5"
+        title:
+          type: string
+          maxLength: 200
+          description: Human-readable section title
+          example: "Chapter 3: Sensor Systems"
+        url:
+          type: string
+          format: uri
+          description: Relative or absolute URL to the source content
+          example: "/docs/module-3/sensors"
+        excerpt:
+          type: string
+          maxLength: 500
+          description: Brief text excerpt from the source
+          example: "Humanoid robots utilize multiple sensor modalities..."
+        score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Relevance score (similarity score from vector search)
+          example: 0.89
+
+    ResponseMetadata:
+      type: object
+      required:
+        - promptTokens
+        - completionTokens
+        - totalTokens
+        - retrievalTime
+        - agentTime
+        - totalTime
+        - chunksRetrieved
+      properties:
+        promptTokens:
+          type: integer
+          description: Number of input tokens
+          example: 1200
+        completionTokens:
+          type: integer
+          description: Number of output tokens
+          example: 350
+        totalTokens:
+          type: integer
+          description: Total token usage (prompt + completion)
+          example: 1550
+        retrievalTime:
+          type: integer
+          description: Retrieval latency in milliseconds
+          example: 450
+        agentTime:
+          type: integer
+          description: Agent processing time in milliseconds
+          example: 3200
+        totalTime:
+          type: integer
+          description: Total response time in milliseconds
+          example: 3650
+        chunksRetrieved:
+          type: integer
+          description: Number of chunks retrieved from vector store
+          example: 5
+
+    StreamChunk:
+      type: object
+      required:
+        - type
+        - data
+        - messageId
+      properties:
+        type:
+          type: string
+          enum: [content, citation, done, error]
+          description: Type of streaming chunk
+        data:
+          oneOf:
+            - type: string
+            - $ref: '#/components/schemas/Citation'
+          description: Chunk payload (type-dependent)
+        messageId:
+          type: string
+          description: Associated message identifier
+          example: "msg-123"
+
+    RetrieveRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: Search query for vector similarity
+          example: "sensor fusion methods"
+        topK:
+          type: integer
+          minimum: 1
+          maximum: 20
+          default: 5
+          description: Number of chunks to retrieve
+          example: 5
+
+    RetrieveResponse:
+      type: object
+      required:
+        - chunks
+        - retrievalTime
+        - chunksRetrieved
+      properties:
+        chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetrievedChunk'
+        retrievalTime:
+          type: integer
+          description: Retrieval latency in milliseconds
+          example: 285
+        chunksRetrieved:
+          type: integer
+          description: Number of chunks retrieved
+          example: 5
+
+    RetrievedChunk:
+      type: object
+      required:
+        - chunkId
+        - text
+        - score
+      properties:
+        chunkId:
+          type: string
+          description: Unique chunk identifier
+          example: "ch3-sec2-p5"
+        text:
+          type: string
+          description: Full text content of the chunk
+          example: "Sensor fusion is the process of combining data..."
+        metadata:
+          type: object
+          description: Additional metadata (chapter, section, page, etc.)
+          additionalProperties: true
+          example:
+            chapter: "Chapter 3"
+            section: "Sensor Systems"
+            page: 45
+        score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Similarity score
+          example: 0.92
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - qdrantConnected
+        - openaiAccessible
+        - uptime
+        - timestamp
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+          description: Overall service health status
+          example: "healthy"
+        qdrantConnected:
+          type: boolean
+          description: Qdrant vector store connectivity status
+          example: true
+        openaiAccessible:
+          type: boolean
+          description: OpenAI API accessibility status
+          example: true
+        uptime:
+          type: integer
+          description: Service uptime in seconds
+          example: 86400
+        timestamp:
+          type: string
+          format: date-time
+          description: Response timestamp
+          example: "2025-12-11T10:30:00Z"
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of current errors (present when status is not healthy)
+
+    MetadataResponse:
+      type: object
+      required:
+        - configuration
+        - statistics
+        - version
+        - timestamp
+      properties:
+        configuration:
+          type: object
+          description: Current service configuration
+          properties:
+            model:
+              type: string
+              example: "gpt-4o"
+            temperature:
+              type: number
+              example: 0.1
+            topKDefault:
+              type: integer
+              example: 5
+            maxPromptTokens:
+              type: integer
+              example: 4000
+            maxCompletionTokens:
+              type: integer
+              example: 1000
+        statistics:
+          type: object
+          description: Operational statistics
+          properties:
+            totalQueries:
+              type: integer
+              example: 1523
+            averageResponseTime:
+              type: integer
+              description: Average response time in milliseconds
+              example: 3250
+            totalTokensUsed:
+              type: integer
+              example: 2847560
+            errorCount:
+              type: integer
+              example: 12
+            uptime:
+              type: integer
+              description: Service uptime in seconds
+              example: 86400
+        version:
+          type: string
+          description: Service version
+          example: "1.0.0"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-12-11T10:30:00Z"
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - code
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: "Query exceeds maximum length of 1000 characters"
+        code:
+          type: string
+          description: Machine-readable error code
+          example: "INVALID_QUERY_LENGTH"
+        details:
+          type: object
+          description: Optional additional error details
+          additionalProperties: true
+
+  securitySchemes:
+    # Placeholder for future authentication (not required in current spec)
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Optional JWT authentication (not currently enforced)
+
+security: []  # No authentication required for this version
+
+x-cors:
+  description: |
+    **CORS Configuration (Backend)**:
+    The FastAPI backend must enable CORS to allow the static Docusaurus frontend to
+    make cross-origin requests.
+
+    **Allowed Origins**:
+    - http://localhost:3000 (Docusaurus dev server)
+    - https://yourproject.github.io (GitHub Pages production)
+
+    **Allowed Methods**: GET, POST, OPTIONS
+    **Allowed Headers**: Content-Type, Authorization
+    **Allow Credentials**: true

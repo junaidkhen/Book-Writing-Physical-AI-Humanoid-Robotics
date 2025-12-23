@@ -1,0 +1,598 @@
+openapi: 3.0.3
+info:
+  title: Document Ingestion API
+  description: REST API for ingesting documents (PDF, TXT, DOCX, HTML) and URLs into the Physical AI & Humanoid Robotics knowledge base
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+  - url: https://api.example.com/api/v1
+    description: Production server
+
+tags:
+  - name: ingestion
+    description: Document ingestion operations
+  - name: documents
+    description: Document metadata queries
+  - name: jobs
+    description: Ingestion job tracking
+  - name: health
+    description: Service health and metrics
+
+paths:
+  /ingest/file:
+    post:
+      tags:
+        - ingestion
+      summary: Ingest single file upload
+      description: Upload a single document file (PDF, TXT, DOCX, HTML) for text extraction, chunking, and embedding
+      operationId: ingestFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Document file (max 500MB)
+      responses:
+        '202':
+          description: File accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Duplicate'
+        '413':
+          $ref: '#/components/responses/FileTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /ingest/url:
+    post:
+      tags:
+        - ingestion
+      summary: Ingest content from URL
+      description: Fetch and ingest content from a static URL (HTML page or direct file link)
+      operationId: ingestURL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  example: "https://example.com/robotics-chapter-1.html"
+                  description: HTTP/HTTPS URL to ingest (no file://, ftp://, etc.)
+      responses:
+        '202':
+          description: URL accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Duplicate'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /ingest/batch:
+    post:
+      tags:
+        - ingestion
+      summary: Batch file ingestion
+      description: Upload multiple files for batch processing (max 100 files per request)
+      operationId: ingestBatch
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - files
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  maxItems: 100
+                  description: Array of document files (max 100)
+      responses:
+        '202':
+          description: Batch accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchIngestionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '413':
+          $ref: '#/components/responses/FileTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /ingest/job/{job_id}:
+    get:
+      tags:
+        - jobs
+      summary: Get ingestion job status
+      description: Query the status and progress of an ingestion job (single or batch)
+      operationId: getJobStatus
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Ingestion job UUID
+      responses:
+        '200':
+          description: Job status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /documents/{document_id}:
+    get:
+      tags:
+        - documents
+      summary: Get document metadata
+      description: Retrieve metadata for a specific document by ID
+      operationId: getDocument
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Document UUID
+      responses:
+        '200':
+          description: Document metadata retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /documents:
+    get:
+      tags:
+        - documents
+      summary: List documents
+      description: Query documents with optional filtering and pagination
+      operationId: listDocuments
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Number of results per page
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Pagination offset
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, processing, completed, failed]
+          description: Filter by processing status
+      responses:
+        '200':
+          description: Documents list retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /health:
+    get:
+      tags:
+        - health
+      summary: Service health check
+      description: Check service health and dependency status (Qdrant, Cohere, etc.)
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '503':
+          description: Service or dependencies unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+
+  /metrics:
+    get:
+      tags:
+        - health
+      summary: Ingestion metrics
+      description: Get ingestion statistics (document counts, processing times, etc.)
+      operationId: getMetrics
+      responses:
+        '200':
+          description: Metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metrics'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  schemas:
+    IngestionResponse:
+      type: object
+      required:
+        - job_id
+        - document_id
+        - status
+        - message
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: Ingestion job ID for tracking
+          example: "b2c3d4e5-6789-01ab-cdef-2345678901bc"
+        document_id:
+          type: string
+          format: uuid
+          description: Document ID assigned
+          example: "a1b2c3d4-5678-90ab-cdef-1234567890ab"
+        status:
+          type: string
+          enum: [pending, processing]
+          description: Initial processing status
+        message:
+          type: string
+          example: "Document accepted for processing"
+
+    BatchIngestionResponse:
+      type: object
+      required:
+        - job_id
+        - total_files
+        - accepted_files
+        - rejected_files
+        - status
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: Batch ingestion job ID
+        total_files:
+          type: integer
+          description: Total files in batch
+          example: 10
+        accepted_files:
+          type: integer
+          description: Number of files accepted
+          example: 8
+        rejected_files:
+          type: integer
+          description: Number of files rejected (invalid format, too large, etc.)
+          example: 2
+        document_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Array of accepted document IDs
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              filename:
+                type: string
+              error:
+                type: string
+          description: Errors for rejected files
+        status:
+          type: string
+          enum: [pending, processing]
+
+    JobStatus:
+      type: object
+      required:
+        - job_id
+        - job_type
+        - status
+        - total_documents
+        - documents_processed
+        - documents_failed
+        - started_at
+      properties:
+        job_id:
+          type: string
+          format: uuid
+        job_type:
+          type: string
+          enum: [single, batch]
+        status:
+          type: string
+          enum: [pending, processing, completed, failed, partial_success]
+        total_documents:
+          type: integer
+          minimum: 1
+        documents_processed:
+          type: integer
+          minimum: 0
+        documents_failed:
+          type: integer
+          minimum: 0
+        started_at:
+          type: string
+          format: date-time
+          example: "2025-12-17T11:00:00Z"
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        error_logs:
+          type: array
+          items:
+            type: object
+            properties:
+              document_id:
+                type: string
+                format: uuid
+              error_message:
+                type: string
+        document_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    Document:
+      type: object
+      required:
+        - document_id
+        - filename
+        - content_type
+        - content_hash
+        - file_size_bytes
+        - upload_date
+        - processing_status
+      properties:
+        document_id:
+          type: string
+          format: uuid
+        filename:
+          type: string
+          maxLength: 255
+        content_type:
+          type: string
+          enum: [pdf, txt, docx, html]
+        content_hash:
+          type: string
+          pattern: '^[a-f0-9]{64}$'
+          description: SHA-256 hash (hex)
+        file_size_bytes:
+          type: integer
+          minimum: 0
+          maximum: 524288000
+        source_url:
+          type: string
+          format: uri
+          nullable: true
+        upload_date:
+          type: string
+          format: date-time
+        processing_status:
+          type: string
+          enum: [pending, processing, completed, failed]
+        processing_started_at:
+          type: string
+          format: date-time
+          nullable: true
+        processing_completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        chunk_count:
+          type: integer
+          minimum: 0
+          nullable: true
+        error_message:
+          type: string
+          maxLength: 1000
+          nullable: true
+        ingestion_job_id:
+          type: string
+          format: uuid
+          nullable: true
+
+    DocumentList:
+      type: object
+      required:
+        - total
+        - limit
+        - offset
+        - documents
+      properties:
+        total:
+          type: integer
+          description: Total number of documents matching filter
+        limit:
+          type: integer
+        offset:
+          type: integer
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+
+    HealthStatus:
+      type: object
+      required:
+        - status
+        - dependencies
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        dependencies:
+          type: object
+          properties:
+            qdrant:
+              $ref: '#/components/schemas/DependencyStatus'
+            cohere:
+              $ref: '#/components/schemas/DependencyStatus'
+
+    DependencyStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [up, down, unknown]
+        latency_ms:
+          type: integer
+          description: Ping latency in milliseconds
+        error:
+          type: string
+          nullable: true
+
+    Metrics:
+      type: object
+      properties:
+        total_documents:
+          type: integer
+        total_chunks:
+          type: integer
+        documents_by_status:
+          type: object
+          properties:
+            pending:
+              type: integer
+            processing:
+              type: integer
+            completed:
+              type: integer
+            failed:
+              type: integer
+        avg_processing_time_seconds:
+          type: number
+          format: float
+        avg_chunks_per_document:
+          type: number
+          format: float
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error context
+          nullable: true
+
+  responses:
+    BadRequest:
+      description: Invalid request (validation failure, unsupported format, etc.)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "INVALID_FILE_TYPE"
+            message: "Unsupported file type: .exe. Allowed: .pdf, .txt, .docx, .html"
+
+    Duplicate:
+      description: Duplicate document detected
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "DUPLICATE_DOCUMENT"
+            message: "Document with identical content already exists"
+            details:
+              existing_document_id: "a1b2c3d4-5678-90ab-cdef-1234567890ab"
+
+    FileTooLarge:
+      description: File exceeds size limit
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "FILE_TOO_LARGE"
+            message: "File exceeds 500MB limit: 612.3MB"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "NOT_FOUND"
+            message: "Document not found: a1b2c3d4-5678-90ab-cdef-1234567890ab"
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "INTERNAL_ERROR"
+            message: "An unexpected error occurred during processing"

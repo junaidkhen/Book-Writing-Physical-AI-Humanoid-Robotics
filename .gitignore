@@ -60,12 +60,25 @@ __pycache__/
 env/
 venv/
 .venv/
+backend/venv/
+backend/.venv/
 pip-log.txt
 pip-delete-this-directory.txt
 .tox/
 .coverage
 .coverage.*
 .cache
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+dist/
+*.egg
+
+# Backend specific
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+backend/*.log
 
 # Local development
 .dockerignore

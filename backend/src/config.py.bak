@@ -1,0 +1,38 @@
+from pydantic_settings import BaseSettings
+from typing import Optional, List
+import os
+
+class Settings(BaseSettings):
+    # API Settings
+    api_title: str = "RAG Backend API"
+    api_version: str = "1.0.0"
+    api_description: str = "API for RAG-based question answering system"
+
+    # CORS Settings
+    allowed_origins: List[str] = [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:3001",
+        "https://junaidkhen.github.io/Book-Writing-Physical-AI-Humanoid-Robotics"  # GitHub Pages URL
+    ]
+
+    # Database settings (if needed)
+    database_url: Optional[str] = os.getenv("DATABASE_URL", "")
+
+    # Vector database settings (Qdrant - as mentioned in the plan)
+    qdrant_url: Optional[str] = os.getenv("QDRANT_URL", "http://localhost:6333")
+    qdrant_api_key: Optional[str] = os.getenv("QDRANT_API_KEY", "")
+
+    # LLM settings
+    openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY", "")
+    anthropic_api_key: Optional[str] = os.getenv("ANTHROPIC_API_KEY", "")
+    cohere_api_key: Optional[str] = os.getenv("COHERE_API_KEY", "")
+
+    # Frontend API URL for CORS
+    frontend_api_url: str = os.getenv("FRONTEND_API_URL", "http://localhost:3000")
+
+    class Config:
+        env_file = ".env"
+
+settings = Settings()

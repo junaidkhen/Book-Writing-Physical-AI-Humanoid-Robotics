@@ -1,0 +1,185 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #1a73e8; /* Google blue for a more tech/robotic feel */
+  --ifm-color-primary-dark: #1865cc;
+  --ifm-color-primary-darker: #1658b0;
+  --ifm-color-primary-darkest: #12478e;
+  --ifm-color-primary-light: #3b8cff;
+  --ifm-color-primary-lighter: #5c9fff;
+  --ifm-color-primary-lightest: #7dbfff;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(26, 115, 232, 0.1);
+
+  /* Additional colors for textbook theme */
+  --textbook-accent-1: #4285f4;
+  --textbook-accent-2: #34a853;
+  --textbook-accent-3: #fbbc05;
+  --textbook-accent-4: #ea4335;
+  --textbook-background-gradient-start: #f8f9fa;
+  --textbook-background-gradient-end: #ffffff;
+  --textbook-sidebar-bg: #f5f7fa;
+  --textbook-card-bg: #ffffff;
+  --textbook-card-border: #e0e6ed;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #8ab4f8;
+  --ifm-color-primary-dark: #6a9cf0;
+  --ifm-color-primary-darker: #5a8ce8;
+  --ifm-color-primary-darkest: #4a7ddf;
+  --ifm-color-primary-light: #a2c8ff;
+  --ifm-color-primary-lighter: #c0d6ff;
+  --ifm-color-primary-lightest: #dceaff;
+  --docusaurus-highlighted-code-line-bg: rgba(26, 115, 232, 0.3);
+
+  /* Dark mode specific colors */
+  --textbook-background-gradient-start: #0f172a;
+  --textbook-background-gradient-end: #1e293b;
+  --textbook-sidebar-bg: #1e293b;
+  --textbook-card-bg: #1e293b;
+  --textbook-card-border: #334155;
+}
+
+/* Enhanced background with gradient */
+.hero--primary {
+  background: linear-gradient(135deg, var(--textbook-background-gradient-start) 0%, var(--textbook-background-gradient-end) 100%);
+  color: #1a1a1a;
+}
+
+[data-theme='dark'] .hero--primary {
+  background: linear-gradient(135deg, var(--textbook-background-gradient-start) 0%, var(--textbook-background-gradient-end) 100%);
+  color: #f0f0f0;
+}
+
+/* Enhanced card styles for content sections */
+.card {
+  border: 1px solid var(--textbook-card-border);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Improved typography for better readability */
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Enhanced code blocks */
+.docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Custom styling for the homepage features */
+.heroBanner {
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Improved sidebar styling */
+.menu {
+  padding: 0.5rem 0;
+}
+
+.menu__list {
+  border-left: 2px solid var(--ifm-color-primary-lighter);
+  padding-left: 0.5rem;
+}
+
+/* Custom styling for the table of contents */
+.table-of-contents {
+  border-left: 3px solid var(--ifm-color-primary);
+  padding-left: 1rem;
+}
+
+/* Enhanced blockquotes for important notes */
+.admonition {
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+/* Custom styles for module headers */
+.module-header {
+  background: linear-gradient(135deg, var(--textbook-accent-1), var(--textbook-accent-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+}
+
+/* Footer styling */
+.footer--dark {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+}
+
+/* Improved navigation */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 1rem;
+}
+
+/* Custom styling for interactive elements */
+.button--primary {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+}
+
+.button--primary:hover {
+  background: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button--secondary {
+  background: transparent;
+  border: 2px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.button--secondary:hover {
+  background: var(--ifm-color-primary);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,90 @@
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.inline {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.block {
+  display: flex;
+}
+
+.small {
+  gap: 0.25rem;
+}
+
+.small .loadingMessage {
+  font-size: 0.8rem;
+}
+
+.medium .loadingMessage {
+  font-size: 0.9rem;
+}
+
+.large {
+  gap: 0.75rem;
+}
+
+.large .loadingMessage {
+  font-size: 1rem;
+}
+
+.spinner {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinnerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #1976d2;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.small .spinnerDot {
+  width: 6px;
+  height: 6px;
+}
+
+.medium .spinnerDot {
+  width: 8px;
+  height: 8px;
+}
+
+.large .spinnerDot {
+  width: 12px;
+  height: 12px;
+}
+
+.spinnerDot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.spinnerDot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.loadingMessage {
+  color: #616161;
+  font-weight: 500;
+}

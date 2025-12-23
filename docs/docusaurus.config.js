@@ -55,7 +55,7 @@ const config = {
       title: 'Physical AI & Humanoid Robotics',
       logo: {
         alt: 'Physical AI & Humanoid Robotics Textbook Logo',
-        src: 'img/logo.svg',
+        src: 'diagrams/Robotics/NAVBAR.jpg',
       },
       items: [
         {
@@ -63,11 +63,6 @@ const config = {
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Textbook',
-        },
-        {
-          to: '/docs/intro',
-          label: 'Introduction',
-          position: 'left',
         },
         {
           href: 'https://github.com/junaidkhen/Book-Writing-Physical-AI-Humanoid-Robotics',

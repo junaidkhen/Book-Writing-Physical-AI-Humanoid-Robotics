@@ -8,8 +8,13 @@ class Settings(BaseSettings):
     qdrant_api_key: Optional[str] = None
     qdrant_collection_name: str = "book_chunks"
 
-    # OpenAI Configuration
-    openai_api_key: str
+    # Gemini API Configuration (via OpenAI-compatible endpoint)
+    gemini_api_key: Optional[str] = None
+    gemini_model: str = "gemini-2.5-flash"
+    gemini_base_url: str = "https://generativelanguage.googleapis.com/v1beta/openai/"
+
+    # OpenAI Configuration (can be used as fallback if Gemini key not available)
+    openai_api_key: Optional[str] = None
     openai_model: str = "gpt-4o"
 
     # Cohere Configuration
@@ -22,7 +27,7 @@ class Settings(BaseSettings):
     # Application Configuration
     temperature: float = 0.1
     top_k: int = 5
-    max_tokens: int = 4000
+    max_tokens: int = 500  # Updated to match requirement: maximum 500 tokens
     debug: bool = False
 
     class Config:

@@ -47,10 +47,12 @@ def create_app():
 
     # Import and include API routes
     from .api.v1.endpoints import ask, retrieve, health, metadata
+    from .routers import chat
     app.include_router(ask.router, prefix="/api/v1", tags=["ask"])
     app.include_router(retrieve.router, prefix="/api/v1", tags=["retrieve"])
     app.include_router(health.router, prefix="/api/v1", tags=["health"])
     app.include_router(metadata.router, prefix="/api/v1", tags=["metadata"])
+    app.include_router(chat.router, tags=["chat"])
 
     @app.get("/")
     async def root():

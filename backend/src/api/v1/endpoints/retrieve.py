@@ -3,12 +3,12 @@ from typing import Dict, Any
 import time
 import uuid
 
-from backend.src.schemas.query_schemas import RetrievalRequest
-from backend.src.schemas.response_schemas import RetrievalResponse, RetrievalMetadata
-from backend.src.services.retrieval_service import retrieve_chunks, validate_retrieval_parameters
-from backend.src.utils.metrics import metrics_tracker
-from backend.src.utils.logging import logger
-from backend.src.exceptions.agent_exceptions import handle_retrieval_error
+from src.schemas.query_schemas import RetrievalRequest
+from src.schemas.response_schemas import RetrievalResponse, RetrievalMetadata
+from src.services.retrieval_service import retrieve_chunks, validate_retrieval_parameters
+from src.utils.metrics import metrics_tracker
+from src.utils.logging import logger
+from src.exceptions.agent_exceptions import handle_retrieval_error
 
 router = APIRouter()
 

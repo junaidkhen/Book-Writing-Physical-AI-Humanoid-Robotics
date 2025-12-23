@@ -15,8 +15,9 @@ from urllib.parse import urljoin, urlparse
 import time
 from dotenv import load_dotenv
 
-# Add the src directory to the path so we can import our modules
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+# Add the backend directory to the path so we can import our modules
+backend_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.insert(0, backend_dir)
 
 from src.services.ingestion import IngestionService
 from src.services.storage import initialize_clients

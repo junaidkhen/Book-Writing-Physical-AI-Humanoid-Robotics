@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from datetime import datetime
 import asyncio
-from backend.src.schemas.health_schemas import HealthResponse, HealthStatus
-from backend.src.clients.qdrant_client import qdrant_client, check_collection_exists
-from backend.src.clients.openai_client import openai_client
-from backend.src.config.settings import settings
-from backend.src.utils.logging import logger
+from src.schemas.health_schemas import HealthResponse, HealthStatus
+from src.clients.qdrant_client import qdrant_client, check_collection_exists
+from src.clients.openai_client import openai_client
+from src.config.settings import settings
+from src.utils.logging import logger
 
 router = APIRouter()
 

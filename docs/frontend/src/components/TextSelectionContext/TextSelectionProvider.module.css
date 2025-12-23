@@ -1,0 +1,38 @@
+.askAIButton {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -100%);
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+  z-index: 1001;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.askAIButton:hover {
+  background-color: #1565c0;
+  transform: translate(-50%, calc(-100% - 2px));
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.5);
+}
+
+.askAIButton:active {
+  transform: translate(-50%, calc(-100% - 1px));
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .askAIButton {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

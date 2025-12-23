@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from backend.src.schemas.metadata_schemas import MetricsResponse, ServiceConfig, PerformanceStats
-from backend.src.utils.metrics import metrics_tracker
-from backend.src.config.settings import settings
-from backend.src.utils.logging import logger
+from src.schemas.metadata_schemas import MetricsResponse, ServiceConfig, PerformanceStats
+from src.utils.metrics import metrics_tracker
+from src.config.settings import settings
+from src.utils.logging import logger
 
 router = APIRouter()
 

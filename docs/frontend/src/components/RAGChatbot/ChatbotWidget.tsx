@@ -103,17 +103,6 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ apiBaseUrl }) => {
                 messageId: assistantId,
                 content: chunk.data?.text || chunk.data || '',
               });
-            } else if (chunk.type === 'error') {
-              // Handle error chunks from backend
-              const errorMessage = chunk.data?.message || 'An error occurred';
-              dispatch({ type: 'SET_ERROR', error: errorMessage });
-
-              // Also add error message to chat
-              dispatch({
-                type: 'UPDATE_MESSAGE_CONTENT',
-                messageId: assistantId,
-                content: `Error: ${errorMessage}`,
-              });
             }
           },
           (err) => {

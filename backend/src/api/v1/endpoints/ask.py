@@ -3,12 +3,12 @@ from typing import Dict, Any
 import time
 import uuid
 
-from backend.src.schemas.query_schemas import QueryRequest
-from backend.src.schemas.response_schemas import QueryResponse
-from backend.src.agents.rag_agent import rag_agent
-from backend.src.utils.metrics import metrics_tracker
-from backend.src.utils.logging import logger
-from backend.src.exceptions.agent_exceptions import handle_agent_error, handle_invalid_query_error
+from src.schemas.query_schemas import QueryRequest
+from src.schemas.response_schemas import QueryResponse
+from src.agents.rag_agent import rag_agent
+from src.utils.metrics import metrics_tracker
+from src.utils.logging import logger
+from src.exceptions.agent_exceptions import handle_agent_error, handle_invalid_query_error
 
 router = APIRouter()
 

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import asyncio
 import json
-from ..services.rag_agent import RAGAgent
+from src.agents.rag_agent import rag_agent
 
 router = APIRouter()
 
@@ -31,23 +31,35 @@ async def ask_question(request: ChatRequest):
     Ask a question and get a response with citations
     """
     try:
-        rag_agent = RAGAgent()
+        # Get response from RAG agent (returns: answer, citations, reasoning, metadata)
+        answer, citations, reasoning, metadata = await rag_agent.query(request.query, top_k=5)
 
-        # Combine context if provided
-        full_context = request.context or ""
-        if request.selected_text:
-            full_context += f"\n\nSelected text for context: {request.selected_text}"
-
-        # Get response from RAG agent
-        result = await rag_agent.query(request.query, context=full_context)
+        # Format citations for response
+        citation_list = [
+            {
+                "chunk_id": c.chunk_id,
+                "chapter": c.chapter,
+                "section": c.section,
+                "page": c.page,
+                "score": c.score
+            }
+            for c in citations
+        ]
 
         return ChatResponse(
-            response=result.get('response', ''),
-            citations=result.get('citations', []),
-            sources=result.get('sources', [])
+            response=answer,
+            citations=citation_list,
+            sources=[f"Chapter {c.chapter}: {c.section}" for c in citations]
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error processing query: {str(e)}")
+        error_msg = str(e)
+        # Provide more specific error messages for common issues
+        if "quota" in error_msg.lower():
+            raise HTTPException(status_code=500, detail="OpenAI API quota exceeded. Please check your OpenAI billing and plan details.")
+        elif "authentication" in error_msg.lower() or "invalid_api_key" in error_msg.lower():
+            raise HTTPException(status_code=500, detail="Invalid OpenAI API key. Please check your API key configuration.")
+        else:
+            raise HTTPException(status_code=500, detail=f"Error processing query: {str(e)}")
 
 @router.post("/ask-stream")
 async def ask_question_stream(request: ChatRequest):
@@ -56,28 +68,35 @@ async def ask_question_stream(request: ChatRequest):
     """
     async def event_generator():
         try:
-            rag_agent = RAGAgent()
-
             # Combine context if provided
             full_context = request.context or ""
             if request.selected_text:
                 full_context += f"\n\nSelected text for context: {request.selected_text}"
 
             # Get streaming response from RAG agent
-            async for chunk in rag_agent.query_stream(request.query, context=full_context):
+            async for chunk in rag_agent.query_stream(request.query, context=full_context, top_k=5):
                 # Yield the chunk as Server-Sent Event
                 yield f"data: {json.dumps(chunk)}\n\n"
 
         except Exception as e:
-            error_chunk = {
-                "type": "error",
-                "data": {"message": f"Error processing query: {str(e)}"}
-            }
+            error_msg = str(e)
+            # Provide more specific error messages for common issues in streaming
+            if "quota" in error_msg.lower():
+                error_chunk = {
+                    "type": "error",
+                    "data": {"message": "OpenAI API quota exceeded. Please check your OpenAI billing and plan details."}
+                }
+            elif "authentication" in error_msg.lower() or "invalid_api_key" in error_msg.lower():
+                error_chunk = {
+                    "type": "error",
+                    "data": {"message": "Invalid OpenAI API key. Please check your API key configuration."}
+                }
+            else:
+                error_chunk = {
+                    "type": "error",
+                    "data": {"message": f"Error processing query: {str(e)}"}
+                }
             yield f"data: {json.dumps(error_chunk)}\n\n"
-        finally:
-            # Send done event
-            done_chunk = {"type": "done", "data": {}}
-            yield f"data: {json.dumps(done_chunk)}\n\n"
 
     return StreamingResponse(
         event_generator(),

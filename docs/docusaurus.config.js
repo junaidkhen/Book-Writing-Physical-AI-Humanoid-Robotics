@@ -26,7 +26,7 @@ const config = {
 
   // ✅ MUST be top-level
   customFields: {
-    apiBaseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000',
+    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://junaidkh84-python-backend.hf.space',
   },
 
   presets: [
@@ -49,7 +49,9 @@ const config = {
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: 'light',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
     },
     navbar: {
       title: 'Physical AI & Humanoid Robotics',
@@ -80,6 +82,8 @@ const config = {
             { label: 'Introduction', to: '/docs/intro' },
             { label: 'Module 1: Foundations', to: '/docs/module-1/week-01-foundations' },
             { label: 'Module 2: Physics & Interaction', to: '/docs/module-2/week-06-physics' },
+            { label: 'Module 3: Vision & Navigation', to: '/docs/module-3/week-08-vision' },
+            { label: 'Module 4: Kinematics & Decision-Making', to: '/docs/module-4/week-11-kinematics' },
           ],
         },
         {
@@ -91,7 +95,7 @@ const config = {
           items: [{ label: 'GitHub', href: 'https://github.com/facebook/docusaurus' }],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Humanoid Robotics Textbook.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Humanoid Robotics Textbook. Prepared by Junaid Khan.`,
     },
     prism: {
       theme: prismThemes.github,

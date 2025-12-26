@@ -8,7 +8,7 @@ export class APIClient {
   private timeout: number;
 
   constructor(config: { baseUrl: string; timeout?: number } = {
-    baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000',
+    baseUrl: process.env.REACT_APP_API_URL || 'https://junaidkh84-python-backend.hf.space',
     timeout: 30000
   }) {
     // Validate and potentially adjust the base URL based on environment
@@ -49,7 +49,7 @@ export class APIClient {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
-      const response = await fetch(`${this.baseUrl}/ask`, {
+      const response = await fetch(`${this.baseUrl}/api/v1/ask`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export class APIClient {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
-      const response = await fetch(`${this.baseUrl}/ask-stream`, {
+      const response = await fetch(`${this.baseUrl}/api/v1/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ export class APIClient {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout for health check
 
-      const response = await fetch(`${this.baseUrl}/health`, {
+      const response = await fetch(`${this.baseUrl}/api/v1/health`, {
         method: 'GET',
         signal: controller.signal,
       });

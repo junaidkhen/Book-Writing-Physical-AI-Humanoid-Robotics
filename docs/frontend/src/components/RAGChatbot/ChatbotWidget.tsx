@@ -20,7 +20,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ apiBaseUrl }) => {
   const resolvedApiBaseUrl =
     apiBaseUrl ||
     (siteConfig.customFields?.apiBaseUrl as string) ||
-    'http://localhost:8000';
+    'https://junaidkh84-python-backend.hf.space';
 
   const { state, dispatch } = useChatbot();
   const [apiClient, setApiClient] = useState<APIClient | null>(null);
@@ -122,27 +122,53 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ apiBaseUrl }) => {
   );
 
   return (
-    <div className={clsx(styles.chatbotContainer, state.isOpen && styles.open)}>
-      <div className={styles.chatbotHeader}>
-        <h2>Textbook Assistant</h2>
-        <button onClick={() => dispatch({ type: 'SET_OPEN', isOpen: !state.isOpen })}>
-          ×
+    <>
+      {/* Floating Chat Button - shown when chatbot is closed */}
+      {!state.isOpen && (
+        <button
+          className={styles.floatingButton}
+          onClick={() => dispatch({ type: 'SET_OPEN', isOpen: true })}
+          aria-label="Open chat assistant"
+        >
+          💬
         </button>
-      </div>
+      )}
 
-      <div className={styles.messagesContainer}>
-        {state.messages.map((m) => (
-          <ChatMessage key={m.id} {...m} />
-        ))}
-        {state.isLoading && <LoadingIndicator message="AI is thinking..." inline />}
-        <div ref={messagesEndRef} />
-      </div>
+      {/* Chatbot Container - shown when chatbot is open */}
+      {state.isOpen && (
+        <div className={clsx(styles.chatbotContainer, styles.open)}>
+          <div className={styles.chatbotHeader}>
+            <h2>Textbook Assistant</h2>
+            <button
+              onClick={() => dispatch({ type: 'SET_OPEN', isOpen: false })}
+              aria-label="Close chat assistant"
+            >
+              ×
+            </button>
+          </div>
 
-      <ChatInput
-        onSendMessage={handleSendMessage}
-        isLoading={state.isLoading}
-      />
-    </div>
+          <div className={styles.messagesContainer}>
+            {/* Welcome Message - shown only when no messages exist */}
+            {state.messages.length === 0 && (
+              <div className={styles.welcomeMessage}>
+                <p>👋 I'm a book assistant chatbot. How may I help you?</p>
+              </div>
+            )}
+
+            {state.messages.map((m) => (
+              <ChatMessage key={m.id} {...m} />
+            ))}
+            {state.isLoading && <LoadingIndicator message="AI is thinking..." inline />}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <ChatInput
+            onSendMessage={handleSendMessage}
+            isLoading={state.isLoading}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

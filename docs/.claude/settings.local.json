@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(npm install)",
+      "Bash(npx docusaurus build)",
+      "Bash(node --version)",
+      "Bash(npm --version)",
+      "Bash(npm install @docusaurus/core @docusaurus/preset-classic)",
+      "Bash(rm -rf node_modules package-lock.json)",
+      "Bash(cat /tmp/claude/-mnt-e-Junaid-Book-Wr-Claude-docs/tasks/beb344d.output)",
+      "Bash(sudo rm -rf node_modules package-lock.json)",
+      "Bash(npx rimraf node_modules)",
+      "Bash(npm ci)",
+      "Bash(cat /tmp/claude/-mnt-e-Junaid-Book-Wr-Claude-docs/tasks/b832259.output)",
+      "Bash(npm install -g @docusaurus/core@3.9.2 @docusaurus/preset-classic@3.9.2)",
+      "Bash(cat /tmp/claude/-mnt-e-Junaid-Book-Wr-Claude-docs/tasks/b6dc249.output)",
+      "Bash(npx @docusaurus/core@3.9.2 build)",
+      "Bash(env -i bash -c 'npm run build')",
+      "Bash(find node_modules -type f -delete)",
+      "Bash(find node_modules -type d -empty -delete)",
+      "Bash(rm -rf node_modules)",
+      "Bash(cat /tmp/claude/-mnt-e-Junaid-Book-Wr-Claude-docs/tasks/bc6fabc.output)",
+      "Bash(cat /tmp/claude/-mnt-e-Junaid-Book-Wr-Claude-docs/tasks/b3c90e8.output)",
+      "Bash(npx docusaurus start)",
+      "Bash(mkdir -p frontend/src)",
+      "Bash(mv src frontend/)",
+      "Bash(cat /mnt/e/Junaid/Book-Wr-Claude/package.json)",
+      "Bash(find /mnt/e/Junaid/Book-Wr-Claude -name \"package.json\" -exec echo \"=== {} ===\" ; -exec cat {} ;)",
+      "Bash(npx docusaurus start --port 3001)",
+      "Bash(npx docusaurus start --port 3002)",
+      "Bash(npx docusaurus clear)",
+      "Bash(killall node)",
+      "Bash(pkill -f docusaurus)",
+      "Bash(git checkout HEAD -- src/components/HomepageFeatures/index.js src/components/HomepageFeatures/styles.module.css)",
+      "Bash(git checkout HEAD -- src/)",
+      "Bash(git checkout HEAD -- docusaurus.config.js package-lock.json)"
+    ]
+  }
+}

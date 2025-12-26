@@ -8,7 +8,7 @@ export class APIClient {
   private timeout: number;
 
   constructor(config: { baseUrl: string; timeout?: number } = {
-    baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000',
+    baseUrl: process.env.REACT_APP_API_URL || 'https://junaidkh84-python-backend.hf.space',
     timeout: 30000
   }) {
     // Validate and potentially adjust the base URL based on environment

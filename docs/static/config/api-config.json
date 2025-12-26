@@ -1,8 +1,8 @@
 {
   "development": {
-    "apiBaseUrl": "http://localhost:8000"
+    "apiBaseUrl": "https://junaidkh84-python-backend.hf.space"
   },
   "production": {
-    "apiBaseUrl": "https://your-production-api.com"
+    "apiBaseUrl": "https://junaidkh84-python-backend.hf.space"
   }
 }

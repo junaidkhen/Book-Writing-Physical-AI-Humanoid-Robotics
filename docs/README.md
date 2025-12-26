@@ -8,6 +8,23 @@ This website is built using [Docusaurus](https://docusaurus.io/), a modern stati
 yarn
 ```
 
+## Environment Configuration
+
+The frontend uses environment variables for configuration. Create a `.env` file in the `docs` directory based on `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+### Required Environment Variables
+
+- `REACT_APP_API_URL`: Backend API URL (defaults to Hugging Face deployment: `https://junaidkh84-python-backend.hf.space`)
+
+For local backend development, you can change this to:
+```
+REACT_APP_API_URL=http://localhost:8000
+```
+
 ## Local Development
 
 ```bash

@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 const FeatureList = [
   {
     title: 'Comprehensive Learning Path',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    image: require('@site/static/diagrams/Robotics/comprehensive-learning-path.png').default,
     description: (
       <>
         A structured 13-week journey through Physical AI and Humanoid Robotics,
@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: 'Practical Code Examples',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    image: require('@site/static/diagrams/Robotics/practical-code-examples.jpg').default,
     description: (
       <>
         20 runnable code examples with environment specifications and test scripts
@@ -25,7 +25,7 @@ const FeatureList = [
   },
   {
     title: 'Cutting-Edge Topics',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    image: require('@site/static/diagrams/Robotics/cutting-edge-topics.PNG').default,
     description: (
       <>
         Explore the latest in embodied artificial intelligence, sensor fusion,
@@ -35,11 +35,11 @@ const FeatureList = [
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({image, title, description}) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <img src={image} className={styles.featureSvg} alt={title} />
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

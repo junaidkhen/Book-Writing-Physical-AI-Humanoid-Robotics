@@ -21,11 +21,11 @@
   --textbook-accent-2: #34a853;
   --textbook-accent-3: #fbbc05;
   --textbook-accent-4: #ea4335;
-  --textbook-background-gradient-start: #f8f9fa;
-  --textbook-background-gradient-end: #ffffff;
-  --textbook-sidebar-bg: #f5f7fa;
+  --textbook-background-gradient-start: #51E6F5;
+  --textbook-background-gradient-end: #51E6F5;
+  --textbook-sidebar-bg: #51E6F5;
   --textbook-card-bg: #ffffff;
-  --textbook-card-border: #e0e6ed;
+  --textbook-card-border: #0095a8;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -45,6 +45,16 @@
   --textbook-sidebar-bg: #1e293b;
   --textbook-card-bg: #1e293b;
   --textbook-card-border: #334155;
+}
+
+/* Global background color */
+body {
+  background-color: #51E6F5;
+}
+
+/* Main content wrapper */
+.main-wrapper {
+  background-color: #51E6F5;
 }
 
 /* Enhanced background with gradient */
@@ -156,6 +166,45 @@
 .navbar {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 0.75rem 1rem;
+  background-color: #000000 !important;
+}
+
+/* Navbar text color */
+.navbar__title,
+.navbar__item,
+.navbar__link {
+  color: #ffffff !important;
+}
+
+/* Navbar link hover state */
+.navbar__link:hover {
+  color: #51E6F5 !important;
+}
+
+/* Active navbar link */
+.navbar__link--active {
+  color: #51E6F5 !important;
+  font-weight: 600;
+}
+
+/* Navbar logo text */
+.navbar__brand {
+  color: #ffffff !important;
+}
+
+/* Mobile navbar toggle */
+.navbar__toggle {
+  color: #ffffff !important;
+}
+
+/* Navbar dropdown */
+.navbar__item.dropdown .navbar__link:after {
+  border-color: #ffffff transparent transparent;
+}
+
+/* Dark mode override for navbar (keep black) */
+[data-theme='dark'] .navbar {
+  background-color: #000000 !important;
 }
 
 /* Custom styling for interactive elements */

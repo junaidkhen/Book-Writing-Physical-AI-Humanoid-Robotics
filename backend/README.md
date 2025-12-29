@@ -59,7 +59,7 @@ Create a `.env` file with the following variables:
 # Qdrant Configuration
 QDRANT_URL=http://localhost:6333
 QDRANT_API_KEY=your_qdrant_api_key_here
-QDRANT_COLLECTION_NAME=book_chunks
+QDRANT_COLLECTION_NAME=documents
 
 # OpenAI Configuration
 OPENAI_API_KEY=your_openai_api_key_here

@@ -89,7 +89,7 @@ def main():
     qdrant_url = os.getenv("QDRANT_URL")
     qdrant_api_key = os.getenv("QDRANT_API_KEY")
     cohere_api_key = os.getenv("COHERE_API_KEY")
-    collection_name = os.getenv("QDRANT_COLLECTION_NAME", "book_chunks")
+    collection_name = os.getenv("QDRANT_COLLECTION_NAME", "documents")
 
     if not all([qdrant_url, qdrant_api_key, cohere_api_key]):
         print("❌ Error: Missing environment variables")

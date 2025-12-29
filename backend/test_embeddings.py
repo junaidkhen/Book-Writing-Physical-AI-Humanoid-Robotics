@@ -65,7 +65,7 @@ def test_qdrant_storage():
 
     # Check if collection exists and get statistics
     try:
-        collection_name = os.getenv("QDRANT_COLLECTION_NAME", "book_chunks")
+        collection_name = os.getenv("QDRANT_COLLECTION_NAME", "documents")
         collection_info = qdrant_client.client.get_collection(collection_name)
         print(f"✓ Collection '{collection_name}' exists")
         print(f"✓ Points count: {collection_info.points_count}")

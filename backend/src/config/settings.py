@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     # Qdrant Configuration
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: Optional[str] = None
-    qdrant_collection_name: str = "book_chunks"
+    qdrant_collection_name: str = "documents"
 
     # Gemini API Configuration (via OpenAI-compatible endpoint)
     gemini_api_key: Optional[str] = None

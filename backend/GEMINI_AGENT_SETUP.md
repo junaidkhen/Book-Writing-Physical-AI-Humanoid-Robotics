@@ -64,7 +64,7 @@ COHERE_API_KEY=your_cohere_api_key_here
 
 # Qdrant Configuration
 QDRANT_URL=http://localhost:6333
-QDRANT_COLLECTION_NAME=book_chunks
+QDRANT_COLLECTION_NAME=documents
 
 # Optional: Model Configuration
 GEMINI_MODEL=gemini-2.5-flash
@@ -79,7 +79,7 @@ Ensure your Qdrant collection is populated with document embeddings:
 
 ```bash
 # Check collection exists
-curl http://localhost:6333/collections/book_chunks
+curl http://localhost:6333/collections/documents
 ```
 
 ## Usage
@@ -249,7 +249,7 @@ curl http://localhost:8000/api/v1/health
 ### Issue: "No relevant documents found"
 **Solution**:
 1. Check Qdrant is running: `curl http://localhost:6333/collections`
-2. Verify collection has documents: `curl http://localhost:6333/collections/book_chunks`
+2. Verify collection has documents: `curl http://localhost:6333/collections/documents`
 3. Re-run document ingestion if needed
 
 ### Issue: "Cohere API error"

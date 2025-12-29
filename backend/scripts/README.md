@@ -17,7 +17,7 @@ Before running the script, ensure that:
 1. You have the required environment variables set in your `.env` file:
    - `QDRANT_URL`: Your Qdrant instance URL
    - `QDRANT_API_KEY`: Your Qdrant API key
-   - `QDRANT_COLLECTION_NAME`: Collection name (default: book_chunks)
+   - `QDRANT_COLLECTION_NAME`: Collection name (default: documents)
    - `COHERE_API_KEY`: Your Cohere API key
    - `SITEMAP_URL`: The URL to your sitemap.xml file
 

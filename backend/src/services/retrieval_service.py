@@ -50,17 +50,23 @@ async def retrieve_chunks(query: str, top_k: int = 5) -> Tuple[List[RetrievedChu
 
         logger.info(f"Generated query embedding (dimension: {len(query_embedding)})")
 
-        # Search Qdrant using the query embedding
+        # Search Qdrant using the query embedding with score threshold
+        # Score threshold of 0.25 filters out very poor matches while keeping borderline relevant results
         search_results = qdrant_client.search(
             collection_name=settings.qdrant_collection_name,
             query_vector=query_embedding,
-            limit=top_k
+            limit=top_k * 2,  # Request more to filter duplicates and UI text
+            score_threshold=0.25  # Minimum similarity score
         )
 
-        logger.info(f"Found {len(search_results)} results from Qdrant")
+        logger.info(f"Found {len(search_results)} results from Qdrant (before filtering)")
 
         # Convert Qdrant results to our RetrievedChunk format
+        # Filter out UI text contamination and duplicates
         retrieved_chunks = []
+        seen_content = set()  # Track seen content to avoid duplicates
+        ui_keywords = ['Skip to main content', 'GitHub', 'On this page', 'Textbook', 'Introduction']
+
         for result in search_results:
             # Extract payload data
             payload = result.payload
@@ -69,6 +75,23 @@ async def retrieve_chunks(query: str, top_k: int = 5) -> Tuple[List[RetrievedChu
             # New structure: text_content + document_metadata
             # Old structure: content + direct chapter/section/page
             content = payload.get('text_content') or payload.get('content', '')
+
+            # Skip empty content
+            if not content or len(content.strip()) < 50:
+                continue
+
+            # Skip UI text contamination (chunks that are mostly navigation/UI elements)
+            if any(keyword in content[:200] for keyword in ui_keywords) and len(content) < 300:
+                logger.debug(f"Skipping UI text chunk: {content[:100]}...")
+                continue
+
+            # Skip duplicate content
+            content_hash = hash(content[:500])  # Use first 500 chars for duplicate detection
+            if content_hash in seen_content:
+                logger.debug(f"Skipping duplicate chunk")
+                continue
+            seen_content.add(content_hash)
+
             doc_metadata = payload.get('document_metadata', {})
 
             # Extract chapter and section from source_url if available
@@ -105,8 +128,12 @@ async def retrieve_chunks(query: str, top_k: int = 5) -> Tuple[List[RetrievedChu
             )
             retrieved_chunks.append(chunk)
 
+            # Stop once we have enough quality chunks
+            if len(retrieved_chunks) >= top_k:
+                break
+
         retrieval_time = (time.time() - start_time) * 1000  # Convert to milliseconds
-        logger.info(f"Retrieved {len(retrieved_chunks)} chunks for query: {query[:50]}... in {retrieval_time:.2f}ms")
+        logger.info(f"Retrieved {len(retrieved_chunks)} quality chunks (from {len(search_results)} raw results) for query: {query[:50]}... in {retrieval_time:.2f}ms")
 
         return retrieved_chunks, retrieval_time
 

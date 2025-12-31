@@ -70,10 +70,10 @@ class RAGAgent:
 
         if not retrieved_chunks:
             # If no relevant chunks found, return appropriate response
-            answer = "I cannot find relevant information in the book to answer this question."
+            answer = "I couldn't find specific information about this topic in the textbook. This might be because: (1) the topic isn't covered in the available chapters, (2) it's discussed using different terminology, or (3) the search didn't match the content closely enough. Try rephrasing your question or using different keywords."
             citations = []
             reasoning = ["Query interpretation: User asked a question",
-                        "Retrieval results: No relevant chunks found in the book",
+                        "Retrieval results: No relevant chunks found in the book (after filtering duplicates and UI text)",
                         "Synthesis logic: Cannot generate answer without relevant context"]
             token_usage = TokenUsage(input_tokens=0, output_tokens=0, total_tokens=0)
             return answer, citations, reasoning, token_usage
@@ -89,14 +89,15 @@ class RAGAgent:
 Your task is to answer questions based ONLY on the provided context from the textbook.
 Do not use any external knowledge or make up information.
 
-Answer the user's question using only the information provided in the context below.
-If the context doesn't contain enough information to answer the question, say: "I cannot find relevant information in the documentation to answer this question."
+Answer the user's question using the information provided in the context below.
 
-Your response must be:
-- Concise and directly answerable from the retrieved context
-- Plain text format (no markdown unless explicitly requested)
-- Maximum 500 tokens
-- Documentation-focused and accurate
+Important guidelines:
+- Use ALL relevant information from the context to provide a comprehensive answer
+- If the context contains partial information, answer what you can and mention what's missing
+- If the context contains related but not exact information, explain the connection
+- Only say "I cannot find relevant information" if the context is completely unrelated
+- Provide detailed explanations with examples when available
+- Use plain text format (no markdown unless explicitly requested)
 
 Context from textbook:
 {context_str}
@@ -223,7 +224,7 @@ Context from textbook:
 
             if not retrieved_chunks:
                 # If no relevant chunks found, return appropriate response
-                yield {"type": "content", "data": {"text": "I cannot find relevant information in the book to answer this question."}}
+                yield {"type": "content", "data": {"text": "I couldn't find specific information about this topic in the textbook. This might be because: (1) the topic isn't covered in the available chapters, (2) it's discussed using different terminology, or (3) the search didn't match the content closely enough. Try rephrasing your question or using different keywords."}}
                 yield {"type": "done", "data": {}}
                 return
 
@@ -243,10 +244,15 @@ Context from textbook:
 Your task is to answer questions based ONLY on the provided context from the textbook.
 Do not use any external knowledge or make up information.
 
-Answer the user's question using only the information provided in the context below.
-If the context doesn't contain enough information to answer the question, say: "I cannot find relevant information in the documentation to answer this question."
+Answer the user's question using the information provided in the context below.
 
-Your response must be concise, plain text (no markdown unless requested), and directly answerable from the context.
+Important guidelines:
+- Use ALL relevant information from the context to provide a comprehensive answer
+- If the context contains partial information, answer what you can and mention what's missing
+- If the context contains related but not exact information, explain the connection
+- Only say "I cannot find relevant information" if the context is completely unrelated
+- Provide detailed explanations with examples when available
+- Use plain text format (no markdown unless requested)
 
 Context: {full_context}"""
 

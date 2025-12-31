@@ -25,9 +25,9 @@ class Settings(BaseSettings):
     book_urls: Optional[str] = None
 
     # Application Configuration
-    temperature: float = 0.1
-    top_k: int = 5
-    max_tokens: int = 500  # Updated to match requirement: maximum 500 tokens
+    temperature: float = 0.3
+    top_k: int = 8
+    max_tokens: int = 3000  # Increased for detailed answers
     debug: bool = False
 
     class Config:

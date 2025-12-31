@@ -27,6 +27,7 @@ const config = {
   // ✅ MUST be top-level
   customFields: {
     apiBaseUrl: process.env.REACT_APP_API_URL || 'https://junaidkh84-python-backend.hf.space',
+    authServiceUrl: process.env.REACT_APP_AUTH_URL || 'http://localhost:3001',
   },
 
   presets: [

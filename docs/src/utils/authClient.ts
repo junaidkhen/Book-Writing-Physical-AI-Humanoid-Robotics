@@ -13,8 +13,8 @@ const getBaseURL = () => {
       return 'http://localhost:3001';
     }
 
-    // Production: Deployed auth service URL
-    return 'https://auth-service-cx2qgku88-ms-projects-53d4b1b2.vercel.app';
+    // Production: Deployed auth service URL (aliased - stable across deployments)
+    return 'https://auth-service-self-alpha.vercel.app';
   }
 
   // Fallback for SSR

@@ -14,7 +14,7 @@ const getBaseURL = () => {
     }
 
     // Production: Deployed auth service URL
-    return 'https://auth-service-iuwaugxyp-ms-projects-53d4b1b2.vercel.app';
+    return 'https://auth-service-cx2qgku88-ms-projects-53d4b1b2.vercel.app';
   }
 
   // Fallback for SSR
